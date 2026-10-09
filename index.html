@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bússola dos Planos</title>
+<meta name="description" content="Compare suas ideias com os planos de governo de Lula (PT) e Flávio Bolsonaro (PL) registrados no TSE para o 2º turno de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: coluna única de leitura (máx. 680px), uma pergunta por vez, resultado em duas barras comparativas. Sem cores partidárias: os dois planos usam azul-petróleo e âmbar. */
+:root{
+  --bg:#f2f3ef; --surface:#fbfbf8; --ink:#1b2320; --muted:#59655f; --line:#d6dad3;
+  --accent:#24473f; --on-accent:#ffffff; --pa:#0b7a86; --pb:#b4690e; --soft:#e7ebe5;
+  --f-display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1513; --surface:#171f1c; --ink:#e8ece9; --muted:#9aa7a1; --line:#2b3631;
+  --accent:#8cc7b6; --on-accent:#0f1513; --pa:#4fc3d0; --pb:#f0b45a; --soft:#202b27; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1513; --surface:#171f1c; --ink:#e8ece9; --muted:#9aa7a1; --line:#2b3631;
+  --accent:#8cc7b6; --on-accent:#0f1513; --pa:#4fc3d0; --pb:#f0b45a; --soft:#202b27; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 56px}
+*{box-sizing:border-box}
+.wrap{max-width:680px;margin-inline:auto;display:flex;flex-direction:column;gap:24px;min-width:0}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0;font-weight:700}
+h1{font-size:clamp(2rem,7vw,3rem);letter-spacing:-.02em}
+h2{font-size:1.5rem}
+h3{font-size:1.05rem}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.lede{font-size:1.08rem;color:var(--ink);max-width:56ch}
+.note{font-size:.88rem;color:var(--muted);max-width:60ch}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.mode{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.mode:hover{border-color:var(--accent)}
+.mode:focus-visible,.opt:focus-within,button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mode b{font-family:var(--f-display);font-size:1.3rem}
+.mode span{color:var(--muted);font-size:.92rem}
+.mode .go{margin-top:8px;font-weight:600;color:var(--accent)}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);flex-wrap:wrap}
+fieldset{border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:12px}
+legend{padding:0;margin-bottom:14px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.3rem,4.5vw,1.65rem);line-height:1.2;text-wrap:balance}
+.opt{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:14px;cursor:pointer;min-width:0}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:4px;accent-color:var(--accent);flex:none;width:18px;height:18px}
+.opt span{min-width:0;overflow-wrap:anywhere}
+.opt:has(input:checked){border-color:var(--accent);background:var(--soft)}
+.opt.skip{border-style:dashed;color:var(--muted)}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.btn{font:inherit;font-weight:600;cursor:pointer;border-radius:6px;padding:11px 18px;border:1.5px solid var(--accent);background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.star{display:flex;gap:8px;align-items:center;font-size:.92rem;color:var(--muted);cursor:pointer}
+.star input{accent-color:var(--accent);width:16px;height:16px}
+.verdict{background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column;gap:18px}
+.score{display:flex;flex-direction:column;gap:6px}
+.score .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.score .nm{font-weight:600}
+.score .pc{font-family:var(--f-display);font-size:2.1rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.track{height:14px;background:var(--soft);border-radius:3px;overflow:hidden}
+.track>i{display:block;height:100%}
+.ca{background:var(--pa)} .cb{background:var(--pb)}
+.themes{display:flex;flex-direction:column;gap:14px}
+.th{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 16px;align-items:center}
+.th .lab{grid-column:1/-1;font-weight:600;font-size:.95rem}
+.th .mini{display:flex;align-items:center;gap:8px;min-width:0}
+.th .mini .track{flex:1;height:8px}
+.th .mini em{font-style:normal;font-family:var(--f-mono);font-size:.75rem;width:3.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.88rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+summary{cursor:pointer;padding:12px 14px;font-weight:600;list-style-position:inside}
+.ans{padding:4px 14px 14px;display:flex;flex-direction:column;gap:14px}
+.ans .q{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:12px}
+.ans .q:first-child{border-top:0;padding-top:0}
+.qt{font-size:.85rem;color:var(--muted)}
+.chip{display:inline-block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-right:6px;color:#fff;vertical-align:1px}
+.chip.L{background:var(--pa)} .chip.F{background:var(--pb)} .chip.B{background:var(--accent);color:var(--on-accent)} .chip.N{background:var(--muted)}
+:root[data-theme="dark"] .chip.L,:root[data-theme="dark"] .chip.F{color:#0f1513}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip.L,:root:not([data-theme="light"]) .chip.F{color:#0f1513}}
+.src{font-family:var(--f-mono);font-size:.74rem;color:var(--muted);overflow-wrap:anywhere}
+a.src{text-decoration:underline;text-underline-offset:2px}
+.alt{font-size:.9rem;color:var(--muted)}
+.caveat{border-left:3px solid var(--line);padding-left:14px;display:flex;flex-direction:column;gap:8px;font-size:.92rem;color:var(--muted)}
+.caveat a{color:var(--accent)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
+@media (max-width:420px){.th{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app"></div>
+
+<script>
+(function(){
+var TH={seg:'Segurança pública',eco:'Economia e impostos',trab:'Trabalho e renda',prev:'Previdência e INSS',est:'Estado e instituições',sau:'Saúde',edu:'Educação',amb:'Meio ambiente e energia',cam:'Campo e alimentação',soc:'Proteção social e moradia',mul:'Mulheres',dir:'Direitos e valores',reg:'Regiões e infraestrutura',ext:'Política externa e defesa',dig:'Tecnologia e governo digital',cul:'Cultura e esporte'};
+var NAME={L:'Lula (PT)',F:'Flávio Bolsonaro (PL)'};
+var PDF={L:'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pt/@@display-file/file/proposta-pt.pdf',F:'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf'};
+/* w: L = proposta no plano de Lula; F = proposta no plano de Flávio; s = seção e página no PDF do TSE (página do PDF = página impressa). Conferido contra o texto extraído dos PDFs em 09/10/2026; ver AUDITORIA.md */
+var Q=[
+{id:'seg1',th:'seg',quick:1,q:'Como o governo federal deve enfrentar PCC, CV e milícias?',o:[
+ {w:'F',t:'Declarar as facções "organizações narcoterroristas", combatê-las com força (o plano prevê abater quem estiver armado de fuzil) e bloquear seus ativos.',s:'Brasil sem Medo, p.13'},
+ {w:'L',t:'Asfixiar financeiramente o crime organizado, aplicar a Lei Antifacção e integrar a inteligência com estados e municípios, nos marcos do Estado de Direito.',s:'Diretriz 3, p.27–28'}]},
+{id:'seg2',th:'seg',quick:1,q:'O que fazer com a idade de responsabilização penal de jovens?',o:[
+ {w:'F',t:'Reduzir a maioridade penal de 18 para 16 anos e punir maiores de 14 em crimes graves (estupro, tráfico, tortura, assassinato).',s:'Brasil sem Medo, p.13'},
+ {w:'L',t:'Não mexer na idade penal e investir em prevenção da violência juvenil, mediação comunitária e justiça restaurativa.',s:'Diretriz 3, p.29 (o plano não propõe mudar a maioridade)'}]},
+{id:'seg3',th:'seg',q:'Qual caminho para o sistema prisional?',o:[
+ {w:'F',t:'Construir 5 presídios de segurança máxima no modelo de El Salvador e criar, com os estados, meio milhão de vagas em 4 anos.',s:'Brasil sem Medo, p.14'},
+ {w:'L',t:'Cumprir o Plano Pena Justa, fortalecer o sistema penitenciário federal e criar um protocolo nacional para transferir presos de alta periculosidade.',s:'Diretriz 3, p.28'}]},
+{id:'seg4',th:'seg',q:'Como tratar penas e execução penal?',o:[
+ {w:'F',t:'Acabar com a progressão de regime em crimes hediondos e aprovar a castração química para condenados por estupro e abuso de crianças.',s:'Brasil sem Medo, p.14–15'},
+ {w:'L',t:'Criar procedimentos jurídicos mais ágeis para punir o crime organizado e barrar candidaturas ligadas a ele, sem propor essas penas.',s:'Diretriz 3, p.27 (o plano não propõe essas penas)'}]},
+{id:'seg5',th:'seg',q:'Qual tecnologia priorizar na segurança?',o:[
+ {w:'F',t:'Um sistema nacional de reconhecimento facial integrado a bancos de dados criminais e mais de 1 milhão de novas câmeras.',s:'Brasil sem Medo, p.15'},
+ {w:'L',t:'Inteligência integrada (SINESP/Infoseg), câmeras corporais nos policiais com padrão nacional e controle interno e externo da atividade policial.',s:'Diretriz 3, p.28 e 30'}]},
+{id:'seg6',th:'seg',q:'Como organizar a presença federal na segurança?',o:[
+ {w:'F',t:'Criar uma tropa de elite das Forças Armadas nas fronteiras e ocupar portos e aeroportos de forma permanente com Marinha e Aeronáutica.',s:'Brasil sem Medo, p.13–15'},
+ {w:'L',t:'Aprovar a PEC da Segurança, criar o Ministério da Segurança Pública e ampliar as forças integradas (FICCOs) com estados e municípios.',s:'Diretriz 3, p.27–30'}]},
+{id:'seg7',th:'seg',q:'Como usar o dinheiro federal da segurança?',o:[
+ {w:'F',t:'Dobrar o investimento federal em segurança ao longo do mandato, com armamento de última geração e valorização do policial.',s:'Brasil sem Medo, p.13 e 15'},
+ {w:'L',t:'Repassar R$ 10 bilhões a estados e municípios para equipamentos e infraestrutura e manter o controle de armas e munições.',s:'Diretriz 3, p.27–28'}]},
+{id:'seg8',th:'seg',q:'Como combater o roubo de celulares?',o:[
+ {w:'F',t:'Prender quem rouba celular e quadruplicar a pena inicial de quem furta ou revende aparelho roubado, sem benefícios.',s:'Brasil sem Medo, p.16'},
+ {w:'L',t:'Ampliar o Celular Seguro e a base nacional de aparelhos com restrição e atacar as redes de receptação.',s:'Diretriz 3, p.29'}]},
+{id:'eco1',th:'eco',quick:1,q:'Qual regra para as contas públicas?',o:[
+ {w:'L',t:'Manter o arcabouço fiscal atual, controlando o aumento do gasto, para reduzir os juros de forma sustentada.',s:'Diretriz 8, p.49'},
+ {w:'F',t:'Trocar as regras fiscais por outras focadas em reduzir a dívida, com superávits e limite de gastos para os três Poderes.',s:'Brasil que Não Volta Atrás, p.71'}]},
+{id:'eco2',th:'eco',quick:1,q:'O que fazer com a reforma tributária do consumo?',o:[
+ {w:'L',t:'Manter e regulamentar a reforma aprovada (CBS e IBS, cesta básica isenta, cashback para os mais pobres, Imposto Seletivo sobre produtos nocivos).',s:'Compromisso com o Projeto de Nação, p.11; Diretriz 9, p.59'},
+ {w:'F',t:'Rever e redimensionar a reforma: reduzir o IVA projetado, cortar exceções e diminuir a carga sobre produção e consumo.',s:'Brasil Mais Barato, p.30; Brasil que Não Volta Atrás, p.71–72'}]},
+{id:'eco3',th:'eco',q:'Qual deve ser o foco da política de impostos?',o:[
+ {w:'L',t:'Justiça tributária: manter a isenção de IR até R$ 5 mil e a tributação dos super-ricos já aprovadas e seguir cortando privilégios e distorções.',s:'Compromisso com o Projeto de Nação, p.11; Diretriz 2, p.19; Diretriz 8, p.49'},
+ {w:'F',t:'Cortar impostos sobre consumo, produção, energia elétrica e combustíveis e reduzir exceções, para que grupos parecidos paguem impostos parecidos.',s:'Brasil Mais Barato, p.30–31'}]},
+{id:'eco4',th:'eco',quick:1,q:'Qual o papel do Estado na economia?',o:[
+ {w:'L',t:'Política industrial ativa (Nova Indústria Brasil), com financiamento direcionado, compras públicas e conteúdo local.',s:'Diretriz 8, p.50–51'},
+ {w:'F',t:'O Estado não deve ser empresário: desestatizações avaliadas caso a caso, concessões e PPPs, e BNDES só para obras no Brasil.',s:'Brasil que Cresce, p.49–51; Brasil que Não Volta Atrás, p.70'}]},
+{id:'eco5',th:'eco',q:'Como ajudar famílias endividadas?',o:[
+ {w:'L',t:'Manter os fundos garantidores, controlar gastos com apostas on-line e endurecer as regras de concessão de crédito para proteger o consumidor.',s:'Diretriz 8, p.49'},
+ {w:'F',t:'Baixar os juros reduzindo a dívida pública, dar orientação financeira pela CAIXA e criar o Ganha-Ganha (quem paga em dia ganha juros menores).',s:'Brasil Mais Barato, p.32–33; Brasil que Prospera, p.46'}]},
+{id:'tr1',th:'trab',quick:1,q:'Como definir a jornada de trabalho?',o:[
+ {w:'L',t:'Acabar com a escala 6x1 e reduzir a jornada para 40 horas semanais, sem redução de salário.',s:'Diretriz 12, p.75'},
+ {w:'F',t:'Fazer valer o negociado sobre o legislado: trabalhador e empresa combinam jornada e condições, dentro da lei.',s:'Brasil que Prospera, p.44–45'}]},
+{id:'tr2',th:'trab',q:'Como tratar o trabalho por aplicativos?',o:[
+ {w:'L',t:'Criar regras para o trabalho por aplicativos, definindo relação de trabalho, remuneração, direitos e contribuição à previdência.',s:'Diretriz 12, p.74–75 e 77'},
+ {w:'F',t:'Preservar a renda gerada pelos aplicativos com proteção previdenciária, sem dirigentes sindicais à frente do processo.',s:'Brasil que Prospera, p.45'}]},
+{id:'tr3',th:'trab',q:'Qual caminho para mais emprego e renda?',o:[
+ {w:'L',t:'Continuar a valorização real do salário-mínimo como forma de distribuir renda e reforçar a política de aprendizagem para inserir jovens no trabalho.',s:'Diretriz 2 (p.24) e Diretriz 12 (p.74)'},
+ {w:'F',t:'Reduzir aos poucos o custo do emprego formal, sem tirar direitos, com contratos mais baratos para o primeiro emprego e para quem tem 50 anos ou mais.',s:'Brasil que Prospera, p.43–44'}]},
+{id:'tr4',th:'trab',q:'Qual o papel dos sindicatos?',o:[
+ {w:'L',t:'Fortalecer a negociação coletiva, atualizar o sistema sindical e voltar a ter assistência sindical na homologação da demissão.',s:'Diretriz 12, p.75–76'},
+ {w:'F',t:'Conter a "República Sindical": sindicalistas fora da formulação de políticas públicas e defesa da reforma trabalhista de 2017.',s:'Brasil que Prospera, p.44–45'}]},
+{id:'pr1',th:'prev',q:'O que priorizar na Previdência e no INSS?',o:[
+ {w:'F',t:'Reeditar o pacote antifraude de 2019, mudar as regras do consignado com dupla checagem e entregar a gestão do INSS a profissionais.',s:'Brasil sem Fila, p.26; Brasil que Não Volta Atrás, p.72–73'},
+ {w:'L',t:'Diversificar as fontes de financiamento da Previdência e criar contribuição mais flexível para quem tem trabalho intermitente, inclusive em aplicativos.',s:'Diretriz 12, p.77'}]},
+{id:'es1',th:'est',quick:1,q:'Como deve ser a máquina pública?',o:[
+ {w:'F',t:'Enxugar: cortar ao menos 10 ministérios, reduzir cargos comissionados, combater supersalários e fazer a reforma administrativa.',s:'Brasil que Não Volta Atrás, p.69'},
+ {w:'L',t:'Modernizar o Estado, valorizar servidores pela Mesa Nacional de Negociação e compartilhar serviços de apoio entre ministérios.',s:'Diretriz 1, p.16–17'}]},
+{id:'es2',th:'est',q:'O que fazer com o Judiciário?',o:[
+ {w:'F',t:'Fazer do STF uma corte constitucional: limitar as decisões individuais de ministros e tirar dele o julgamento criminal de parlamentares.',s:'Brasil que Cumpre a Constituição, p.65'},
+ {w:'L',t:'Manter diálogo com o Judiciário, respeitando sua autonomia, para reduzir a demora dos processos.',s:'Diretriz 1, p.16'}]},
+{id:'es3',th:'est',q:'Qual mudança política é prioridade?',o:[
+ {w:'F',t:'Acabar com a reeleição para presidente da República e fazer reforma política para aproximar eleitor e eleito.',s:'Brasil que Cumpre a Constituição, p.66'},
+ {w:'L',t:'Reforma política e eleitoral para aproximar a representação da composição da sociedade, com mais participação social (conselhos e conferências).',s:'Diretriz 1, p.15'}]},
+{id:'es4',th:'est',q:'Como dividir poder e recursos na Federação?',o:[
+ {w:'F',t:'Mais Brasil, menos Brasília: rever o pacto federativo e destravar a chegada de recursos a estados e municípios.',s:'Brasil que Não Volta Atrás, p.68–69'},
+ {w:'L',t:'Abrir o orçamento federal à participação social e debater com a sociedade o sistema de emendas parlamentares.',s:'Diretriz 1, p.15–16'}]},
+{id:'es5',th:'est',q:'O que priorizar sobre redes sociais e plataformas?',o:[
+ {w:'L',t:'Avançar na regulação democrática das plataformas para impedir a difusão de desinformação e de campanhas de ódio.',s:'Diretriz 1, p.16'},
+ {w:'F',t:'Acabar com estruturas do governo que rotulem ou punam opiniões como desinformação e revogar atos usados contra críticos.',s:'Brasil que Cumpre a Constituição, p.66–67'}]},
+{id:'es6',th:'est',q:'Como prevenir a corrupção?',o:[
+ {w:'F',t:'Fortalecer a Lei das Estatais, escolher dirigentes por recrutamento de mercado e blindar fundos de pensão da indicação política.',s:'Brasil que Não Volta Atrás, p.69–70'},
+ {w:'L',t:'Aprofundar o Plano de Integridade e Combate à Corrupção e transformar o Portal da Transparência em plataforma com dados abertos e IA.',s:'Diretriz 1, p.18'}]},
+{id:'sa1',th:'sau',quick:1,q:'Como reduzir as filas do SUS?',o:[
+ {w:'L',t:'Expandir o Agora Tem Especialistas (terceiro turno, mutirões, carretas da saúde), manter o Mais Médicos e a Farmácia Popular gratuita.',s:'Diretriz 5, p.35–37'},
+ {w:'F',t:'Contratar exames na rede privada em horários ociosos, corrigir a tabela SUS e usar telessaúde e IA no agendamento.',s:'Brasil sem Fila, p.26; Brasil que Prepara, p.37–38'}]},
+{id:'sa2',th:'sau',q:'Como facilitar o acesso a remédios e exames de quem tem doença crônica?',o:[
+ {w:'L',t:'Manter a Farmácia Popular 100% gratuita e incluir nela exames de doenças crônicas, como hipertensão e diabetes.',s:'Diretriz 5, p.36'},
+ {w:'F',t:'Criar um sistema de entrega de remédio em casa para idosos, pessoas com deficiência e doentes crônicos.',s:'Brasil que Prepara, p.38'}]},
+{id:'ed1',th:'edu',quick:1,q:'Qual o melhor caminho para melhorar o aprendizado?',o:[
+ {w:'F',t:'Alfabetizar pelo método fônico, criar reforço dado por alunos remunerados (Programa Acolher) e vincular repasses a metas de aprendizagem.',s:'Brasil que Prepara, p.35'},
+ {w:'L',t:'Seguir o Compromisso Criança Alfabetizada com estados e municípios (meta de 80%) e criar estratégia nacional de recomposição das aprendizagens.',s:'Diretriz 4, p.31'}]},
+{id:'ed2',th:'edu',q:'Onde faltam vagas em creches e escolas, o que fazer?',o:[
+ {w:'F',t:'Dar voucher para a família matricular o filho na rede privada credenciada até surgir vaga pública.',s:'Brasil por Elas, p.21; Brasil que Prepara, p.36'},
+ {w:'L',t:'Construir mais creches e escolas públicas com apoio a estados e municípios (Novo PAC) e priorizar o tempo integral.',s:'Diretriz 4, p.31–32'}]},
+{id:'ed3',th:'edu',q:'O que priorizar no currículo e na gestão das escolas?',o:[
+ {w:'F',t:'Ampliar as escolas cívico-militares e garantir escola "livre de doutrinação político-partidária", cabendo aos pais decidir sobre valores.',s:'Brasil que Prepara, p.35'},
+ {w:'L',t:'Acelerar a educação para as relações étnico-raciais e a educação escolar quilombola e apoiar a educação inclusiva.',s:'Diretriz 2, p.20 e 23'}]},
+{id:'ed4',th:'edu',q:'Como ampliar o acesso ao ensino superior?',o:[
+ {w:'F',t:'Financiamento em que o estudante só paga quando tiver renda, e pesquisa universitária voltada a inovação e impacto produtivo.',s:'Brasil que Prepara, p.36–37'},
+ {w:'L',t:'Novo ciclo de expansão e interiorização das universidades públicas, com mais assistência estudantil para garantir a permanência.',s:'Diretriz 4, p.33'}]},
+{id:'ed5',th:'edu',q:'Como ampliar o ensino técnico?',o:[
+ {w:'F',t:'Ensino técnico no ensino médio em parceria com empresas, que poderão custear bolsas de formação.',s:'Brasil que Prepara, p.36'},
+ {w:'L',t:'Continuar abrindo institutos federais, priorizando interior, periferias e cidades com poucos cursos técnicos.',s:'Diretriz 4, p.33'}]},
+{id:'am1',th:'amb',quick:1,q:'Como reduzir o desmatamento?',o:[
+ {w:'L',t:'Desmatamento líquido zero até 2030, com Fundo Amazônia, Fundo Florestas Tropicais, manejo do fogo e terras públicas destinadas à conservação.',s:'Diretriz 8 (p.56) e Diretriz 11 (p.70–71)'},
+ {w:'F',t:'Zerar o desmatamento ilegal até 2029 com satélite e IA, sem novas obrigações ao produtor legal, e pagar por serviços ambientais.',s:'Brasil que Cresce, p.57–58'}]},
+{id:'am2',th:'amb',q:'Qual direção para petróleo, gás e energia?',o:[
+ {w:'L',t:'Ampliar renováveis, baterias e biocombustíveis, com a Petrobras investindo também em exploração, refino e voltando à distribuição de combustíveis.',s:'Diretriz 10, p.64 e 67'},
+ {w:'F',t:'Liberar o gás não convencional (fracking), atrair capital privado para gás e refino e baixar a conta de luz cortando encargos e impostos.',s:'Brasil Mais Barato, p.31; Brasil que Cresce, p.52–53'}]},
+{id:'am3',th:'amb',q:'Como tratar o licenciamento ambiental de grandes obras?',o:[
+ {w:'F',t:'Fixar prazo para o órgão ambiental decidir; se ele não decidir no prazo, a licença é concedida.',s:'Brasil que Cresce, p.49–50'},
+ {w:'L',t:'Reforçar a fiscalização, garantir a efetividade do Código Florestal e da Lei da Mata Atlântica e buscar rastreabilidade nas cadeias produtivas.',s:'Diretriz 11, p.70 e 72 (o plano não trata de prazo para licença)'}]},
+{id:'ca1',th:'cam',q:'Qual prioridade para a terra no campo?',o:[
+ {w:'F',t:'Garantir o direito de propriedade, titular rápido as terras do pequeno produtor e agilizar as outorgas de irrigação.',s:'Brasil sem Fila, p.27; Brasil que Cresce, p.54–55'},
+ {w:'L',t:'Seguir com a reforma agrária, assentando famílias acampadas, e ampliar o crédito fundiário e o Pronaf.',s:'Diretriz 9, p.59–60'}]},
+{id:'ca2',th:'cam',q:'Como deixar a comida mais barata e estável?',o:[
+ {w:'F',t:'Reduzir o custo do frete com corredores logísticos e ampliar a armazenagem de safras e o seguro rural.',s:'Brasil Mais Barato, p.31–32'},
+ {w:'L',t:'Comprar alimentos da agricultura familiar (PAA e merenda escolar) e expandir seu crédito com prioridade para a cesta básica.',s:'Diretriz 9, p.59–60'}]},
+{id:'so1',th:'soc',q:'Qual a lógica dos programas de transferência de renda?',o:[
+ {w:'F',t:'Manter os programas e dar ao beneficiário prioridade em qualificação e emprego, com o objetivo de reduzir a dependência do Estado.',s:'Brasil que Prospera, p.42–43'},
+ {w:'L',t:'Manter, aperfeiçoar e ampliar a proteção social para quem mais precisa, fortalecendo a assistência social (SUAS) e a Política Nacional de Cuidados.',s:'Diretriz 2, p.18 e 25–26'}]},
+{id:'so2',th:'soc',q:'Qual programa de moradia?',o:[
+ {w:'L',t:'Ampliar o Minha Casa Minha Vida para todas as faixas, com o Periferia Viva para urbanizar favelas.',s:'Diretriz 7, p.45–46'},
+ {w:'F',t:'Retomar o Casa Verde e Amarela (meta de 2,5 milhões de casas), com escritura de preferência no nome da mulher.',s:'Brasil que Prospera, p.47'}]},
+{id:'mu1',th:'mul',q:'Como proteger as mulheres da violência?',o:[
+ {w:'F',t:'Centrais da Mulher (física e por aplicativo com IA), tornozeleira para agressores de maior risco e pena cumprida integralmente por quem agride mulher.',s:'Brasil sem Medo, p.14; Brasil por Elas, p.17–19'},
+ {w:'L',t:'Seguir o Pacto contra o Feminicídio: concluir 30 Casas da Mulher Brasileira, ampliar as Salas Lilás e dar kits de monitoramento de agressores aos estados.',s:'Diretriz 2, p.21'}]},
+{id:'mu2',th:'mul',q:'Como ampliar a renda das mulheres?',o:[
+ {w:'F',t:'Cursos gratuitos da Escola Brasil por Elas (IA, programação, finanças), bônus de internet e juros menores para quem paga em dia.',s:'Brasil por Elas, p.18–20'},
+ {w:'L',t:'Obrigar empresas com desigualdade salarial a cumprir planos com metas para igualar os salários de mulheres e homens.',s:'Diretriz 12, p.75'}]},
+{id:'di1',th:'dir',quick:1,q:'Quais valores devem guiar o governo?',o:[
+ {w:'F',t:'Liberdade, família, vida desde a concepção, propriedade privada e liberdade religiosa.',s:'Apresentação, p.9'},
+ {w:'L',t:'Redução das desigualdades, combate ao racismo, ao machismo e às discriminações, e garantia de direitos sexuais e reprodutivos.',s:'Diretriz 2, p.19 e 21'}]},
+{id:'di2',th:'dir',q:'Como tratar terras de povos indígenas e quilombolas?',o:[
+ {w:'L',t:'Seguir demarcando terras indígenas e titulando territórios quilombolas, retirando invasores (desintrusão) quando necessário.',s:'Diretriz 2, p.20'},
+ {w:'F',t:'Dar autonomia a indígenas e quilombolas para decidir atividades produtivas em suas terras, com compensação por restrições.',s:'Brasil que Cresce, p.50'}]},
+{id:'rg1',th:'reg',q:'Como reduzir a desigualdade entre as regiões?',o:[
+ {w:'F',t:'Priorizar obras de água e irrigação no Nordeste, o Trem do Nordeste e a conclusão da Transnordestina.',s:'Brasil que Cresce, p.52 e 60'},
+ {w:'L',t:'Usar os fundos constitucionais e o novo Fundo de Desenvolvimento Regional e atrair indústrias movidas a energia renovável ao Nordeste.',s:'Diretriz 8, p.55–56'}]},
+{id:'rg2',th:'reg',q:'Quem deve puxar o investimento em infraestrutura?',o:[
+ {w:'F',t:'A iniciativa privada: R$ 900 bilhões em 4 anos via concessões e PPPs, com fundo lastreado em imóveis da União.',s:'Brasil que Cresce, p.50–51'},
+ {w:'L',t:'Uma nova edição do Novo PAC, articulando investimento público e privado, com obras públicas e concessões.',s:'Diretriz 8, p.52–53'}]},
+{id:'ex1',th:'ext',quick:1,q:'Qual deve ser a linha da política externa?',o:[
+ {w:'L',t:'Multilateralismo (reforma da ONU e da OMC), BRICS, Sul Global e integração sul-americana (Mercosul, OTCA).',s:'Diretriz 13, p.80–81'},
+ {w:'F',t:'Abertura comercial, adesão à OCDE e integração a cadeias globais de valor, com diplomacia guiada pelo pragmatismo.',s:'Brasil que Cresce, p.61–63'}]},
+{id:'ex2',th:'ext',q:'Qual o foco da defesa nacional?',o:[
+ {w:'L',t:'Autonomia estratégica: orçamento de defesa à altura, indústria nacional de defesa e proteção das fronteiras, da Amazônia e da Amazônia Azul.',s:'Diretriz 13, p.78–79'},
+ {w:'F',t:'Concentrar a defesa no combate ao crime organizado, com drones e IA, e uma tropa das Forças Armadas nas fronteiras.',s:'Brasil sem Medo, p.13–14; Brasil que Cresce, p.63'}]},
+{id:'dg1',th:'dig',q:'Qual a prioridade em tecnologia?',o:[
+ {w:'L',t:'Soberania digital: supercomputadores nacionais, IA em português e data centers com salvaguardas e contrapartidas.',s:'Diretriz 8, p.54–55'},
+ {w:'F',t:'Digitalizar 100% dos serviços federais, criar a identidade digital única e usar IA para atender o cidadão.',s:'Brasil sem Fila, p.24–25'}]},
+{id:'dg2',th:'dig',q:'Como tratar a regulação da inteligência artificial?',o:[
+ {w:'F',t:'Uma lei voltada à liberdade de criar e inovar, para a tecnologia ser desenvolvida aqui sem entraves.',s:'Brasil que Cresce, p.56–57'},
+ {w:'L',t:'Transparência dos algoritmos, rastreio de conteúdo gerado por IA e regras para pagar artistas quando plataformas usam suas obras.',s:'Diretriz 6 (p.42) e Diretriz 8 (p.55)'}]},
+{id:'cu1',th:'cul',q:'Como apoiar a cultura?',o:[
+ {w:'L',t:'Aperfeiçoar as leis Rouanet e Aldir Blanc, desconcentrar recursos, fortalecer o Cultura Viva e regular o streaming.',s:'Diretriz 6, p.40–42'},
+ {w:'F',t:'Aperfeiçoar as leis de incentivo corrigindo distorções, favorecer outros polos regionais e não subordinar a cultura a agendas políticas.',s:'Brasil que Prepara, p.41'}]},
+{id:'cu2',th:'cul',q:'Como financiar o esporte?',o:[
+ {w:'F',t:'Reduzir a dependência do dinheiro público: PPPs para levar esporte competitivo às escolas e patrocínio privado no alto rendimento.',s:'Brasil que Prepara, p.40'},
+ {w:'L',t:'Ampliar o Bolsa Atleta, manter o patrocínio das estatais e expandir as Arenas Brasil pelo Novo PAC.',s:'Diretriz 6, p.43–44'}]}
+];
+/* Pontos em comum: aparecem só no resultado, não contam no cálculo */
+var COMMON=[
+ {t:'Prontuário eletrônico único do paciente, integrado entre as redes',L:'Diretriz 5, p.35',F:'Brasil sem Fila, p.25–26'},
+ {t:'Monitoramento eletrônico de agressores de mulheres',L:'Diretriz 2, p.21',F:'Brasil sem Medo, p.14; Brasil por Elas, p.19'},
+ {t:'Conter o endividamento causado por apostas on-line',L:'Diretriz 8, p.49',F:'Brasil Mais Barato, p.33'},
+ {t:'Produção nacional de fertilizantes',L:'Diretriz 9, p.63',F:'Brasil Mais Barato, p.32; Brasil que Cresce, p.54'},
+ {t:'Biocombustíveis (etanol, biodiesel, SAF, biogás)',L:'Diretriz 10, p.67–68',F:'Brasil que Cresce, p.53'},
+ {t:'Pagamento por serviços ambientais',L:'Diretriz 11, p.72',F:'Brasil que Cresce, p.55 e 57'},
+ {t:'Mais vagas em creche e escola em tempo integral',L:'Diretriz 4, p.31',F:'Brasil por Elas, p.21; Brasil que Prepara, p.35'},
+ {t:'Data centers abastecidos por energia renovável',L:'Diretriz 8, p.54–55',F:'Brasil que Cresce, p.53'}
+];
+var app=document.getElementById('app');
+var st={mode:null,list:[],i:0,ans:{},imp:{},seed:0};
+function rnd(s){s=(s*9301+49297)%233280;return s/233280}
+function shuffle(a,seed){a=a.slice();var s=seed;for(var i=a.length-1;i>0;i--){s=Math.floor(rnd(s+i)*1e6);var j=s%(i+1);var t=a[i];a[i]=a[j];a[j]=t}return a}
+function el(h){var d=document.createElement('div');d.innerHTML=h;return d}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+/* fonte com link para a primeira página citada no PDF do plano correspondente */
+function src(w,s){var m=/p\.(\d+)/.exec(s);if(!PDF[w]||!m)return '<span class="src">'+esc(s)+'</span>';
+  return '<a class="src" href="'+PDF[w]+'#page='+m[1]+'" target="_blank" rel="noopener">'+esc(s)+'</a>'}
+function who(w){return w==='L'?'Lula':w==='F'?'Flávio':'Os dois'}
+function intro(){
+  app.innerHTML='<div class="eyebrow">Eleições 2026 · 2º turno · 25 de outubro</div>'+
+  '<h1>Bússola dos Planos</h1>'+
+  '<p class="lede">Responda a perguntas cujas opções vêm dos planos de governo registrados no TSE e veja qual plano fica mais perto das suas ideias. Os nomes dos candidatos só aparecem no resultado.</p>'+
+  '<div class="modes">'+
+   '<button class="mode" data-m="quick"><b>Rápido</b><span>12 perguntas · cerca de 5 minutos. Os temas de maior peso no debate.</span><span class="go">Começar</span></button>'+
+   '<button class="mode" data-m="full"><b>Completo</b><span>'+Q.length+' perguntas · cerca de 20 a 25 minutos. Você marca o que mais importa para você.</span><span class="go">Começar</span></button>'+
+  '</div>'+
+  '<p class="note">Os dois planos comparados são os de Lula (PT) e de Flávio Bolsonaro (PL), disponíveis na página de planos de governo do TSE. Suas respostas não saem do seu navegador.</p>';
+  [].forEach.call(app.querySelectorAll('.mode'),function(b){b.onclick=function(){start(b.getAttribute('data-m'))}});
+}
+function start(m){
+  st.mode=m;st.list=Q.filter(function(q){return m==='full'||q.quick});st.i=0;st.ans={};st.imp={};st.seed=Math.floor(Math.random()*9000)+11;
+  ask();window.scrollTo(0,0);
+}
+function ask(){
+  var q=st.list[st.i],n=st.list.length,pct=Math.round(st.i/n*100);
+  var opts=shuffle(q.o,st.seed+st.i*7);
+  if(q.o.length>1)opts=opts.concat([{w:'N',t:'Nenhuma delas me representa ou prefiro pular.'}]);
+  else opts=opts.concat([{w:'N',t:'Prefiro pular ou não concordo.'}]);
+  var cur=st.ans[q.id];
+  var h='<div class="meta"><span>'+TH[q.th]+'</span><span>Pergunta '+(st.i+1)+' de '+n+'</span></div>'+
+   '<div class="bar" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+pct+'%"></i></div>'+
+   '<form id="f"><fieldset><legend>'+esc(q.q)+'</legend>';
+  opts.forEach(function(o,k){
+    var idx=q.o.indexOf(o), val=(o.w==='N')?'N':String(idx);
+    var chk=(cur!==undefined&&String(cur)===val)?' checked':'';
+    h+='<label class="opt'+(o.w==='N'?' skip':'')+'"><input type="radio" name="a" id="o'+k+'" value="'+val+'"'+chk+'><span>'+esc(o.t)+'</span></label>';
+  });
+  h+='</fieldset>';
+  if(st.mode==='full')h+='<label class="star" style="margin-top:14px"><input type="checkbox" id="imp"'+(st.imp[q.id]?' checked':'')+'> Este tema é muito importante para mim (vale em dobro)</label>';
+  h+='<div class="row" style="margin-top:20px"><button type="button" class="btn ghost" id="back"'+(st.i===0?' disabled':'')+'>Voltar</button><button type="submit" class="btn" id="next" '+(cur===undefined?'disabled':'')+'>'+(st.i===n-1?'Ver resultado':'Próxima')+'</button></div></form>';
+  app.innerHTML=h;
+  var f=document.getElementById('f'),next=document.getElementById('next');
+  f.onchange=function(e){var r=f.querySelector('input[name=a]:checked');if(r){st.ans[q.id]=r.value;next.disabled=false}};
+  var im=document.getElementById('imp');if(im)im.onchange=function(){st.imp[q.id]=im.checked};
+  document.getElementById('back').onclick=function(){if(st.i>0){st.i--;ask()}};
+  f.onsubmit=function(e){e.preventDefault();if(st.ans[q.id]===undefined)return;if(st.i<n-1){st.i++;ask();window.scrollTo(0,0)}else{result();window.scrollTo(0,0)}};
+}
+function calc(){
+  var T={L:0,F:0,tot:0},by={};
+  st.list.forEach(function(q){
+    var a=st.ans[q.id];if(a===undefined||a==='N')return;
+    var o=q.o[+a],w=st.mode==='full'&&st.imp[q.id]?2:1;
+    var b=by[q.th]||(by[q.th]={L:0,F:0,tot:0});
+    T.tot+=w;b.tot+=w;
+    if(o.w==='L'||o.w==='B'){T.L+=w;b.L+=w}
+    if(o.w==='F'||o.w==='B'){T.F+=w;b.F+=w}
+  });
+  return {T:T,by:by};
+}
+function pc(x,t){return t?Math.round(x/t*100):0}
+function result(){
+  var c=calc(),T=c.T,pl=pc(T.L,T.tot),pf=pc(T.F,T.tot);
+  var h='<div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div>';
+  if(!T.tot){
+    h+='<h2>Sem respostas para comparar</h2><p class="lede">Você pulou todas as perguntas. Refaça o teste escolhendo ao menos uma opção.</p><div class="row"><button class="btn" id="again">Refazer</button></div>';
+    app.innerHTML=h;document.getElementById('again').onclick=intro;return;
+  }
+  var d=Math.abs(pl-pf),head;
+  if(d<=5)head='Seu perfil fica dividido entre os dois planos';
+  else head='Seu perfil fica mais perto do plano de '+(pl>pf?NAME.L:NAME.F);
+  h+='<h2>'+head+'</h2>';
+  h+='<div class="verdict">'+
+   '<div class="score"><div class="top"><span class="nm">'+NAME.L+'</span><span class="pc">'+pl+'%</span></div><div class="track"><i class="ca" style="width:'+pl+'%"></i></div></div>'+
+   '<div class="score"><div class="top"><span class="nm">'+NAME.F+'</span><span class="pc">'+pf+'%</span></div><div class="track"><i class="cb" style="width:'+pf+'%"></i></div></div>'+
+   '<p class="note">Percentual das suas respostas (com peso, no teste completo) que coincidem com propostas de cada plano. Pontos em comum contam para os dois, por isso as porcentagens não somam 100.</p></div>';
+  h+='<h3>Por tema</h3><div class="legend"><span><i class="ca"></i>Lula</span><span><i class="cb"></i>Flávio</span></div><div class="themes">';
+  Object.keys(TH).forEach(function(k){var b=c.by[k];if(!b)return;
+    var a=pc(b.L,b.tot),f=pc(b.F,b.tot);
+    h+='<div class="th"><div class="lab">'+TH[k]+'</div>'+
+     '<div class="mini"><div class="track"><i class="ca" style="width:'+a+'%"></i></div><em>'+a+'%</em></div>'+
+     '<div class="mini"><div class="track"><i class="cb" style="width:'+f+'%"></i></div><em>'+f+'%</em></div></div>';});
+  h+='</div>';
+  h+='<h3>Suas respostas, com a fonte</h3>';
+  Object.keys(TH).forEach(function(k){
+    var qs=st.list.filter(function(q){return q.th===k});if(!qs.length)return;
+    h+='<details><summary>'+TH[k]+'</summary><div class="ans">';
+    qs.forEach(function(q){
+      var a=st.ans[q.id];h+='<div class="q"><span class="qt">'+esc(q.q)+'</span>';
+      if(a===undefined||a==='N'){h+='<span><span class="chip N">Pulou</span>Nenhuma opção escolhida.</span>'}
+      else{var o=q.o[+a];
+        h+='<span><span class="chip '+o.w+'">'+who(o.w)+'</span>'+esc(o.t)+'</span>'+src(o.w,o.s);
+        q.o.forEach(function(p,ix){if(ix!==+a)h+='<span class="alt"><span class="chip '+p.w+'">'+who(p.w)+'</span>Outra posição: '+esc(p.t)+' '+src(p.w,p.s)+'</span>'});}
+      h+='</div>';});
+    h+='</div></details>';});
+  h+='<h3>Onde os dois planos concordam</h3><p class="note">Propostas presentes nos dois planos. Não entram no cálculo, porque não ajudam a diferenciar um do outro.</p><details><summary>Ver os '+COMMON.length+' pontos em comum</summary><div class="ans">';
+  COMMON.forEach(function(x){h+='<div class="q"><span><span class="chip B">Os dois</span>'+esc(x.t)+'</span><span>Lula: '+src('L',x.L)+'</span><span>Flávio: '+src('F',x.F)+'</span></div>'});
+  h+='</div></details>';
+  h+='<div class="caveat"><p>O que esta ferramenta não faz: ela compara textos de planos registrados na Justiça Eleitoral. Não mede histórico de governo, composição do Congresso, viabilidade orçamentária nem o que cada candidato diz fora do plano. Cada pergunta resume a posição escrita; confira o texto completo antes de decidir.</p>'+
+   '<p>Onde o plano de um candidato não trata do tema, a opção do outro plano aparece junto com uma observação na fonte.</p>'+
+   '<p>Planos no TSE: <a href="'+PDF.L+'" target="_blank" rel="noopener">plano de Lula (PDF)</a> · <a href="'+PDF.F+'" target="_blank" rel="noopener">plano de Flávio Bolsonaro (PDF)</a>. Os números de página seguem os PDFs, e cada fonte acima abre o PDF na página citada.</p></div>';
+  h+='<div class="row"><button class="btn ghost" id="again">Refazer do início</button>'+(st.mode==='quick'?'<button class="btn" id="full">Fazer o teste completo</button>':'')+'</div>';
+  app.innerHTML=h;
+  document.getElementById('again').onclick=intro;
+  var fb=document.getElementById('full');if(fb)fb.onclick=function(){start('full')};
+}
+intro();
+})();
+</script>
+</body>
+</html>

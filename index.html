@@ -55,7 +55,7 @@ p,.opt span,.ans .q>span:not(.qt){text-align:justify;hyphens:auto;-webkit-hyphen
 .mode .go{margin-top:8px;font-weight:600;color:var(--accent)}
 .bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
 .bar>i{display:block;height:100%;background:var(--accent);transition:width .25s}
-.home{all:unset;cursor:pointer;align-self:flex-start;font-size:.9rem;font-weight:600;color:var(--accent);margin-bottom:-8px}
+.home{all:unset;cursor:pointer;align-self:flex-start;font-size:.9rem;font-weight:600;color:var(--accent)}
 .home:hover{text-decoration:underline}
 .home:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);flex-wrap:wrap}
@@ -109,7 +109,7 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 .about p{color:var(--ink)}
 .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
 .foot a{color:var(--accent);font-weight:600}
-.res-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:30px;margin-bottom:-8px}
 .sh-wrap{display:flex;align-items:center;gap:6px}
 .sh{all:unset;cursor:pointer;color:var(--muted);display:inline-flex;padding:6px;border-radius:4px;opacity:.75}
 .sh:hover{opacity:1;color:var(--accent)}
@@ -347,7 +347,7 @@ function src(w,s){var m=/p\.(\d+)/.exec(s);if(!PDF[w]||!m)return '<span class="s
   return '<a class="src" href="'+PDF[w]+'#page='+m[1]+'" target="_blank" rel="noopener">'+esc(s)+'</a>'}
 function who(w){return w==='L'?'Lula':w==='F'?'Flávio':'Os dois'}
 function intro(){
-  app.innerHTML='<div class="eyebrow">Eleições 2026 · 2º turno · 25 de outubro</div>'+
+  app.innerHTML=bar(false)+'<div class="eyebrow">Eleições 2026 · 2º turno · 25 de outubro</div>'+
   '<h1>Quiz dos Planos</h1>'+
   '<p class="lede">Responda a perguntas cujas opções vêm dos planos de governo registrados no TSE e veja qual plano fica mais perto das suas ideias. Os nomes dos candidatos só aparecem no resultado.</p>'+
   '<div class="modes">'+
@@ -359,6 +359,7 @@ function intro(){
    '<p>Muita discussão política fica no nome do candidato e pouco no que ele propõe. Os planos de governo registrados no TSE dizem por escrito o que cada lado pretende fazer, mas juntos passam de 150 páginas, e quase ninguém tem tempo de ler.</p>'+
    '<p>Aqui você conhece esses planos tema por tema, sem saber de quem é cada proposta até o final. A ideia é ajudar você a decidir de forma coerente com o que pensa sobre cada assunto, e não pelo rótulo.</p>'+
    '<p>E talvez você se surpreenda: é comum concordar com parte do que os dois lados propõem.</p></section>';
+  wireBar(INVITE,false);
   [].forEach.call(app.querySelectorAll('.mode'),function(b){b.onclick=function(){start(b.getAttribute('data-m'))}});
 }
 function start(m){
@@ -371,7 +372,7 @@ function ask(){
   if(q.o.length>1)opts=opts.concat([{w:'N',t:'Nenhuma delas me representa ou prefiro pular.'}]);
   else opts=opts.concat([{w:'N',t:'Prefiro pular ou não concordo.'}]);
   var cur=st.ans[q.id];
-  var h='<button type="button" class="home" id="home">← Voltar ao início</button>'+
+  var h=bar(true)+
    '<div class="meta"><span>'+TH[q.th]+'</span><span>Pergunta '+(st.i+1)+' de '+n+'</span></div>'+
    '<div class="bar" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+pct+'%"></i></div>'+
    '<form id="f"><fieldset><legend>'+esc(q.q)+'</legend>';
@@ -388,9 +389,7 @@ function ask(){
   f.onchange=function(e){var r=f.querySelector('input[name=a]:checked');if(r){st.ans[q.id]=r.value;next.disabled=false}};
   var im=document.getElementById('imp');if(im)im.onchange=function(){st.imp[q.id]=im.checked};
   document.getElementById('back').onclick=function(){if(st.i>0){st.i--;ask()}};
-  document.getElementById('home').onclick=function(){
-    if(Object.keys(st.ans).length&&!confirm('Voltar ao início? As respostas deste teste serão perdidas.'))return;
-    intro();window.scrollTo(0,0)};
+  wireBar(INVITE,Object.keys(st.ans).length>0);
   f.onsubmit=function(e){e.preventDefault();if(st.ans[q.id]===undefined)return;if(st.i<n-1){st.i++;ask();window.scrollTo(0,0)}else{result();window.scrollTo(0,0)}};
 }
 function calc(){
@@ -408,21 +407,30 @@ function calc(){
 function pc(x,t){return t?Math.round(x/t*100):0}
 /* compartilhar: menu nativo do aparelho; sem ele, copia o texto */
 var SITE='https://andersonxe.github.io/quiz-plano-governo/';
-function setupShare(r){
+var INVITE='Conheça o Quiz dos Planos: responda sem saber de quem é cada proposta e veja qual plano de governo do 2º turno fica mais perto das suas ideias.';
+function resultText(r){
   var nums='Lula '+r.pl+'%, Flávio Bolsonaro '+r.pf+'%';
-  var text=(r.split?'Fiz o Quiz dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz o Quiz dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:';
-  var b=document.getElementById('sh'),m=document.getElementById('sh-msg');
+  return (r.split?'Fiz o Quiz dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz o Quiz dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:'}
+/* barra do topo, em todas as telas: voltar ao início (fora da tela inicial) e compartilhar */
+var SHARE_ICON='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7l7.4-4.1M8.3 13.3l7.4 4.1"/></svg>';
+function bar(home){return '<div class="topbar">'+(home?'<button type="button" class="home" id="home">← Voltar ao início</button>':'<span></span>')+
+  '<span class="sh-wrap"><span class="sh-msg" id="sh-msg" aria-live="polite"></span><button type="button" class="sh" id="sh" aria-label="Compartilhar" title="Compartilhar">'+SHARE_ICON+'</button></span></div>'}
+function wireBar(text,confirmHome){
+  var b=document.getElementById('sh'),m=document.getElementById('sh-msg'),hm=document.getElementById('home');
   function msg(t){m.textContent=t;setTimeout(function(){m.textContent=''},2500)}
   b.onclick=function(){
     if(navigator.share){navigator.share({title:'Quiz dos Planos',text:text,url:SITE}).catch(function(){});return}
     if(navigator.clipboard)navigator.clipboard.writeText(text+' '+SITE).then(function(){msg('Copiado')},function(){msg('Não foi possível copiar')});
-  }}
+  };
+  if(hm)hm.onclick=function(){
+    if(confirmHome&&!confirm('Voltar ao início? As respostas deste teste serão perdidas.'))return;
+    intro();window.scrollTo(0,0)}}
 function result(){
   var c=calc(),T=c.T,pl=pc(T.L,T.tot),pf=pc(T.F,T.tot);
-  var h='<div class="res-top"><div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div><span class="sh-wrap"><span class="sh-msg" id="sh-msg" aria-live="polite"></span><button type="button" class="sh" id="sh" aria-label="Compartilhar resultado" title="Compartilhar resultado"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7l7.4-4.1M8.3 13.3l7.4 4.1"/></svg></button></span></div>';
+  var h=bar(true)+'<div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div>';
   if(!T.tot){
     h+='<h2>Sem respostas para comparar</h2><p class="lede">Você pulou todas as perguntas. Refaça o teste escolhendo ao menos uma opção.</p><div class="row"><button class="btn" id="again">Refazer</button></div>';
-    app.innerHTML=h;document.getElementById('again').onclick=intro;return;
+    app.innerHTML=h;wireBar(INVITE,false);document.getElementById('again').onclick=intro;return;
   }
   var d=Math.abs(pl-pf),head;
   if(d<=5)head='Seu perfil fica dividido entre os dois planos';
@@ -459,7 +467,7 @@ function result(){
    '<p>Planos no TSE: <a href="'+PDF.L+'" target="_blank" rel="noopener">plano de Lula (PDF)</a> · <a href="'+PDF.F+'" target="_blank" rel="noopener">plano de Flávio Bolsonaro (PDF)</a>. Os números de página seguem os PDFs, e cada fonte acima abre o PDF na página citada.</p></div>';
   h+='<div class="row"><button class="btn ghost" id="again">Refazer do início</button>'+(st.mode==='quick'?'<button class="btn" id="full">Fazer o teste completo</button>':'')+'</div>';
   app.innerHTML=h;
-  setupShare({pl:pl,pf:pf,split:d<=5,lead:pl>pf?'L':'F',mode:st.mode,n:st.list.length});
+  wireBar(resultText({pl:pl,pf:pf,split:d<=5,lead:pl>pf?'L':'F'}),false);
   document.getElementById('again').onclick=intro;
   var fb=document.getElementById('full');if(fb)fb.onclick=function(){start('full')};
 }

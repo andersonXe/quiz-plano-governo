@@ -45,6 +45,9 @@ p,.opt span,.ans .q>span:not(.qt){text-align:justify;hyphens:auto;-webkit-hyphen
 .mode .go{margin-top:8px;font-weight:600;color:var(--accent)}
 .bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
 .bar>i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.home{all:unset;cursor:pointer;align-self:flex-start;font-size:.9rem;font-weight:600;color:var(--accent);margin-bottom:-8px}
+.home:hover{text-decoration:underline}
+.home:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);flex-wrap:wrap}
 fieldset{border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:12px}
 legend{padding:0;margin-bottom:14px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.3rem,4.5vw,1.65rem);line-height:1.2;text-wrap:balance}
@@ -310,7 +313,8 @@ function ask(){
   if(q.o.length>1)opts=opts.concat([{w:'N',t:'Nenhuma delas me representa ou prefiro pular.'}]);
   else opts=opts.concat([{w:'N',t:'Prefiro pular ou não concordo.'}]);
   var cur=st.ans[q.id];
-  var h='<div class="meta"><span>'+TH[q.th]+'</span><span>Pergunta '+(st.i+1)+' de '+n+'</span></div>'+
+  var h='<button type="button" class="home" id="home">← Voltar ao início</button>'+
+   '<div class="meta"><span>'+TH[q.th]+'</span><span>Pergunta '+(st.i+1)+' de '+n+'</span></div>'+
    '<div class="bar" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+pct+'%"></i></div>'+
    '<form id="f"><fieldset><legend>'+esc(q.q)+'</legend>';
   opts.forEach(function(o,k){
@@ -326,6 +330,9 @@ function ask(){
   f.onchange=function(e){var r=f.querySelector('input[name=a]:checked');if(r){st.ans[q.id]=r.value;next.disabled=false}};
   var im=document.getElementById('imp');if(im)im.onchange=function(){st.imp[q.id]=im.checked};
   document.getElementById('back').onclick=function(){if(st.i>0){st.i--;ask()}};
+  document.getElementById('home').onclick=function(){
+    if(Object.keys(st.ans).length&&!confirm('Voltar ao início? As respostas deste teste serão perdidas.'))return;
+    intro();window.scrollTo(0,0)};
   f.onsubmit=function(e){e.preventDefault();if(st.ans[q.id]===undefined)return;if(st.i<n-1){st.i++;ask();window.scrollTo(0,0)}else{result();window.scrollTo(0,0)}};
 }
 function calc(){

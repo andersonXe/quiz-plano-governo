@@ -89,6 +89,11 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 .alt{font-size:.9rem;color:var(--muted)}
 .caveat{border-left:3px solid var(--line);padding-left:14px;display:flex;flex-direction:column;gap:8px;font-size:.92rem;color:var(--muted)}
 .caveat a{color:var(--accent)}
+.about{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:22px;max-width:60ch}
+.about h2{font-size:1.2rem}
+.about p{color:var(--ink)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.foot a{color:var(--accent);font-weight:600}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
 @media (max-width:420px){.th{grid-template-columns:1fr}}
@@ -97,6 +102,7 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 <body>
 
 <div class="wrap" id="app"></div>
+<footer class="wrap foot"><p>Projeto independente, sem ligação com partidos ou candidaturas. Dúvidas, sugestões ou encontrou algum erro? <a href="https://andersonxe.github.io/" target="_blank" rel="noopener">Fale comigo pelo meu portfólio</a>.</p></footer>
 
 <script>
 (function(){
@@ -285,7 +291,11 @@ function intro(){
    '<button class="mode" data-m="quick"><b>Rápido</b><span>12 perguntas · cerca de 5 minutos. Os temas de maior peso no debate.</span><span class="go">Começar</span></button>'+
    '<button class="mode" data-m="full"><b>Completo</b><span>'+Q.length+' perguntas · cerca de 20 a 25 minutos. Você marca o que mais importa para você.</span><span class="go">Começar</span></button>'+
   '</div>'+
-  '<p class="note">Os dois planos comparados são os de Lula (PT) e de Flávio Bolsonaro (PL), disponíveis na página de planos de governo do TSE. Suas respostas não saem do seu navegador.</p>';
+  '<p class="note">Os dois planos comparados são os de Lula (PT) e de Flávio Bolsonaro (PL), disponíveis na página de planos de governo do TSE. Suas respostas não saem do seu navegador.</p>'+
+  '<section class="about" aria-labelledby="about-h"><h2 id="about-h">Por que este site existe</h2>'+
+   '<p>Muita discussão política fica no nome do candidato e pouco no que ele propõe. Os planos de governo registrados no TSE dizem por escrito o que cada lado pretende fazer, mas juntos passam de 150 páginas, e quase ninguém tem tempo de ler.</p>'+
+   '<p>Aqui você conhece esses planos tema por tema, sem saber de quem é cada proposta até o final. A ideia é ajudar você a decidir de forma coerente com o que pensa sobre cada assunto, e não pelo rótulo.</p>'+
+   '<p>E talvez você se surpreenda: é comum concordar com parte do que os dois lados propõem.</p></section>';
   [].forEach.call(app.querySelectorAll('.mode'),function(b){b.onclick=function(){start(b.getAttribute('data-m'))}});
 }
 function start(m){

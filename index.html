@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bússola dos Planos</title>
+<title>Quiz dos Planos</title>
 <meta name="description" content="Compare suas ideias com os planos de governo de Lula (PT) e Flávio Bolsonaro (PL) registrados no TSE para o 2º turno de 2026.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://andersonxe.github.io/quiz-plano-governo/">
-<meta property="og:title" content="Bússola dos Planos">
+<meta property="og:title" content="Quiz dos Planos">
 <meta property="og:description" content="Responda sem saber de quem é cada proposta e veja qual plano de governo do 2º turno de 2026 fica mais perto das suas ideias.">
-<meta property="og:image" content="https://andersonxe.github.io/quiz-plano-governo/og.png">
+<meta property="og:image" content="https://andersonxe.github.io/quiz-plano-governo/og-quiz.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Bússola dos Planos: compare suas ideias com os planos de governo do 2º turno de 2026">
+<meta property="og:image:alt" content="Quiz dos Planos: compare suas ideias com os planos de governo do 2º turno de 2026">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -136,7 +136,7 @@ dialog#terms::backdrop{background:rgba(0,0,0,.45)}
 <p class="note">Última atualização: 9 de outubro de 2026</p>
 
 <h3>1. O que é este site</h3>
-<p>A Bússola dos Planos é uma ferramenta informativa e gratuita, feita de forma independente, sem ligação com partidos, candidaturas, coligações ou com a Justiça Eleitoral. Ela compara as suas respostas com trechos dos planos de governo de Lula (PT) e de Flávio Bolsonaro (PL) registrados no TSE para o 2º turno de 2026.</p>
+<p>O Quiz dos Planos é uma ferramenta informativa e gratuita, feita de forma independente, sem ligação com partidos, candidaturas, coligações ou com a Justiça Eleitoral. Ele compara as suas respostas com trechos dos planos de governo de Lula (PT) e de Flávio Bolsonaro (PL) registrados no TSE para o 2º turno de 2026.</p>
 
 <h3>2. Não é recomendação de voto nem pesquisa</h3>
 <p>O resultado mostra apenas quanto as suas respostas se aproximam do que está escrito em cada plano. Ele não leva em conta histórico de governo, composição do Congresso, viabilidade das propostas nem declarações feitas fora do plano. Também não é pesquisa eleitoral nem enquete: as respostas não são coletadas, somadas nem divulgadas.</p>
@@ -348,7 +348,7 @@ function src(w,s){var m=/p\.(\d+)/.exec(s);if(!PDF[w]||!m)return '<span class="s
 function who(w){return w==='L'?'Lula':w==='F'?'Flávio':'Os dois'}
 function intro(){
   app.innerHTML='<div class="eyebrow">Eleições 2026 · 2º turno · 25 de outubro</div>'+
-  '<h1>Bússola dos Planos</h1>'+
+  '<h1>Quiz dos Planos</h1>'+
   '<p class="lede">Responda a perguntas cujas opções vêm dos planos de governo registrados no TSE e veja qual plano fica mais perto das suas ideias. Os nomes dos candidatos só aparecem no resultado.</p>'+
   '<div class="modes">'+
    '<button class="mode" data-m="quick"><b>Rápido</b><span>12 perguntas · cerca de 5 minutos. Os temas de maior peso no debate.</span><span class="go">Começar</span></button>'+
@@ -410,11 +410,11 @@ function pc(x,t){return t?Math.round(x/t*100):0}
 var SITE='https://andersonxe.github.io/quiz-plano-governo/';
 function setupShare(r){
   var nums='Lula '+r.pl+'%, Flávio Bolsonaro '+r.pf+'%';
-  var text=(r.split?'Fiz a Bússola dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz a Bússola dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:';
+  var text=(r.split?'Fiz o Quiz dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz o Quiz dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:';
   var b=document.getElementById('sh'),m=document.getElementById('sh-msg');
   function msg(t){m.textContent=t;setTimeout(function(){m.textContent=''},2500)}
   b.onclick=function(){
-    if(navigator.share){navigator.share({title:'Bússola dos Planos',text:text,url:SITE}).catch(function(){});return}
+    if(navigator.share){navigator.share({title:'Quiz dos Planos',text:text,url:SITE}).catch(function(){});return}
     if(navigator.clipboard)navigator.clipboard.writeText(text+' '+SITE).then(function(){msg('Copiado')},function(){msg('Não foi possível copiar')});
   }}
 function result(){

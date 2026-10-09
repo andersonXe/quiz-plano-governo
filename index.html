@@ -109,13 +109,6 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 .about p{color:var(--ink)}
 .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
 .foot a{color:var(--accent);font-weight:600}
-.share{display:flex;flex-direction:column;gap:10px}
-.share-btns,.sh-act{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.sh-act a.btn{text-decoration:none;display:inline-block}
-#sh-box{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:16px}
-#sh-box[hidden]{display:none}
-.sh-prev{width:150px;height:auto;border:1px solid var(--line);border-radius:4px;flex:none}
-.sh-act{flex:1;min-width:200px}
 dialog#terms{border:1.5px solid var(--line);border-radius:6px;padding:0;background:var(--surface);color:var(--ink);width:min(680px,calc(100vw - 32px));max-height:calc(100dvh - 48px)}
 dialog#terms::backdrop{background:rgba(0,0,0,.45)}
 .terms-body{padding:22px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
@@ -152,7 +145,7 @@ dialog#terms::backdrop{background:rgba(0,0,0,.45)}
 <li><b>GitHub Pages</b>, que hospeda o site e registra acessos para operação e segurança. <a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Declaração de privacidade do GitHub</a>.</li>
 <li><b>Google Fonts</b>, de onde o seu navegador baixa as fontes do texto. <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener">Privacidade do Google Fonts</a>.</li>
 </ul>
-<p>Se você usar os botões de compartilhar, a imagem e o texto são gerados no seu próprio navegador e só saem dele pelo app que você escolher (WhatsApp, Instagram etc.), sob as regras desse app. Nada é enviado para este site.</p>
+<p>Se você usar o botão de compartilhar, o texto com o seu resultado só sai do navegador pelo app que você escolher, sob as regras desse app. Nada é enviado para este site.</p>
 <p>Os links para os PDFs do TSE e para o portfólio levam a outros sites, que têm políticas próprias.</p>
 
 <h3>5. Cookies</h3>
@@ -407,74 +400,16 @@ function calc(){
   return {T:T,by:by};
 }
 function pc(x,t){return t?Math.round(x/t*100):0}
-/* ---------- compartilhar: imagem 1080x1920 (formato story) gerada no navegador ---------- */
+/* compartilhar: menu nativo do aparelho; sem ele, copia o texto */
 var SITE='https://andersonxe.github.io/quiz-plano-governo/';
-var IMG={bg:'#f2f3ef',surface:'#fbfbf8',ink:'#1b2320',muted:'#59655f',line:'#d6dad3',soft:'#e7ebe5',accent:'#24473f',L:'#0b7a86',F:'#b4690e'};
-var FD='"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif',FB='"IBM Plex Sans","Helvetica Neue",Arial,sans-serif',FM='"IBM Plex Mono",Menlo,monospace';
-function wrap(ctx,text,x,y,maxW,lh){var words=text.split(' '),line='';
-  words.forEach(function(w){var t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,y);y+=lh;line=w}else line=t});
-  if(line){ctx.fillText(line,x,y);y+=lh}return y}
-function shareTexts(r){
-  if(r.kind==='inv')return 'Descobri qual plano de governo combina mais com as minhas ideias. Faça o teste também, sem saber de quem é cada proposta até o final: '+SITE;
+function setupShare(r){
   var nums='Lula '+r.pl+'%, Flávio Bolsonaro '+r.pf+'%';
-  return (r.split?'Fiz a Bússola dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz a Bússola dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+
-   ' Não é recomendação de voto, só compara propostas escritas. Faça o teste também: '+SITE}
-function drawCard(r){
-  var c=document.createElement('canvas');c.width=1080;c.height=1920;var x=c.getContext('2d'),P=96,W=1080-2*P,y;
-  x.fillStyle=IMG.bg;x.fillRect(0,0,1080,1920);x.textBaseline='alphabetic';
-  x.fillStyle=IMG.muted;x.font='500 30px '+FM;x.fillText('ELEIÇÕES 2026 · 2º TURNO',P,170);
-  x.fillStyle=IMG.ink;x.font='700 104px '+FD;x.fillText('Bússola',P,300);x.fillText('dos Planos',P,410);
-  x.fillStyle=IMG.line;x.fillRect(P,470,W,3);
-  if(r.kind==='inv'){
-    x.fillStyle=IMG.ink;x.font='700 66px '+FD;y=wrap(x,'Descobri qual plano de governo combina mais com as minhas ideias.',P,600,W,82);
-    x.fillStyle=IMG.muted;x.font='400 42px '+FB;y=wrap(x,'As opções vêm dos planos registrados no TSE, e o nome de cada candidato só aparece no final.',P,y+50,W,60);
-    x.fillStyle=IMG.accent;x.font='600 50px '+FB;wrap(x,'Faça o teste também.',P,y+60,W,64);
-  }else{
-    x.fillStyle=IMG.muted;x.font='500 30px '+FM;x.fillText(('MEU RESULTADO · TESTE '+(r.mode==='full'?'COMPLETO':'RÁPIDO')+' · '+r.n+' PERGUNTAS'),P,560);
-    x.fillStyle=IMG.ink;x.font='700 64px '+FD;
-    y=wrap(x,r.split?'Meu perfil ficou dividido entre os dois planos':'Meu perfil ficou mais perto do plano de '+NAME[r.lead],P,660,W,78);
-    y+=50;
-    [['L',r.pl],['F',r.pf]].forEach(function(s){
-      x.fillStyle=IMG.ink;x.font='600 46px '+FB;x.fillText(NAME[s[0]],P,y+60);
-      x.font='700 104px '+FD;x.textAlign='right';x.fillText(s[1]+'%',P+W,y+80);x.textAlign='left';
-      x.fillStyle=IMG.soft;x.fillRect(P,y+115,W,40);x.fillStyle=IMG[s[0]];x.fillRect(P,y+115,Math.round(W*s[1]/100),40);
-      y+=215});
-    x.fillStyle=IMG.muted;x.font='400 34px '+FB;
-    y=wrap(x,'Percentual das minhas respostas que coincidem com cada plano. Pontos em comum contam para os dois, por isso não somam 100.',P,y+10,W,48);
-  }
-  /* rodapé: convite + aviso */
-  x.fillStyle=IMG.surface;x.strokeStyle=IMG.line;x.lineWidth=3;x.fillRect(P,1570,W,250);x.strokeRect(P,1570,W,250);
-  x.fillStyle=IMG.ink;x.font='600 40px '+FB;x.fillText('Faça o teste:',P+40,1645);
-  x.fillStyle=IMG.accent;x.font='600 33px '+FM;x.fillText('andersonxe.github.io/quiz-plano-governo',P+40,1705);
-  x.fillStyle=IMG.muted;x.font='400 30px '+FB;x.fillText('Não é recomendação de voto.',P+40,1775);
-  return new Promise(function(res){c.toBlob(function(b){res(b)},'image/png')})}
-function fontsReady(){if(!document.fonts||!document.fonts.load)return Promise.resolve();
-  return Promise.all(['700 64px "Bricolage Grotesque"','400 34px "IBM Plex Sans"','600 46px "IBM Plex Sans"','500 30px "IBM Plex Mono"','600 38px "IBM Plex Mono"'].map(function(f){return document.fonts.load(f)})).catch(function(){})}
-function setupShare(res){
-  var cards={},box=document.getElementById('sh-box');
-  /* gera as duas imagens já ao mostrar o resultado, para o menu do celular abrir na hora do clique */
-  fontsReady().then(function(){
-    ['res','inv'].forEach(function(k){var r={kind:k,pl:res.pl,pf:res.pf,split:res.split,lead:res.lead,mode:res.mode,n:res.n};
-      cards[k]={r:r,text:shareTexts(r),blob:drawCard(r)}})});
-  function go(k){
-    var it=cards[k];if(!it){setTimeout(function(){go(k)},150);return}
-    it.blob.then(function(b){
-      var file=new File([b],'bussola-dos-planos.png',{type:'image/png'});
-      var url=URL.createObjectURL(b);
-      box.hidden=false;
-      box.innerHTML='<img src="'+url+'" alt="Prévia da imagem para compartilhar" class="sh-prev">'+
-       '<div class="sh-act"><a class="btn" href="https://wa.me/?text='+encodeURIComponent(it.text)+'" target="_blank" rel="noopener">Enviar no WhatsApp</a>'+
-       '<a class="btn ghost" href="'+url+'" download="bussola-dos-planos.png">Baixar imagem</a>'+
-       '<button class="btn ghost" type="button" id="sh-copy">Copiar texto</button>'+
-       '<p class="note">No Instagram, baixe a imagem e publique nos stories. O endereço do site já está escrito nela.</p></div>';
-      document.getElementById('sh-copy').onclick=function(){var me=this;
-        if(navigator.clipboard)navigator.clipboard.writeText(it.text).then(function(){me.textContent='Texto copiado'},function(){me.textContent='Não foi possível copiar'})};
-      if(navigator.canShare&&navigator.canShare({files:[file]}))
-        navigator.share({files:[file],text:it.text,title:'Bússola dos Planos'}).catch(function(){});
-    })}
-  document.getElementById('sh-res').onclick=function(){go('res')};
-  document.getElementById('sh-inv').onclick=function(){go('inv')};
-}
+  var text=(r.split?'Fiz a Bússola dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz a Bússola dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:';
+  var b=document.getElementById('sh');
+  b.onclick=function(){
+    if(navigator.share){navigator.share({title:'Bússola dos Planos',text:text,url:SITE}).catch(function(){});return}
+    if(navigator.clipboard)navigator.clipboard.writeText(text+' '+SITE).then(function(){b.textContent='Copiado! Cole onde quiser'},function(){b.textContent='Não foi possível copiar'});
+  }}
 function result(){
   var c=calc(),T=c.T,pl=pc(T.L,T.tot),pf=pc(T.F,T.tot);
   var h='<div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div>';
@@ -490,8 +425,7 @@ function result(){
    '<div class="score"><div class="top"><span class="nm">'+NAME.L+'</span><span class="pc">'+pl+'%</span></div><div class="track"><i class="ca" style="width:'+pl+'%"></i></div></div>'+
    '<div class="score"><div class="top"><span class="nm">'+NAME.F+'</span><span class="pc">'+pf+'%</span></div><div class="track"><i class="cb" style="width:'+pf+'%"></i></div></div>'+
    '<p class="note">Percentual das suas respostas (com peso, no teste completo) que coincidem com propostas de cada plano. Pontos em comum contam para os dois, por isso as porcentagens não somam 100.</p></div>';
-  h+='<div class="share"><div class="share-btns"><button class="btn" id="sh-res">Compartilhar meu resultado</button><button class="btn ghost" id="sh-inv">Só convidar para o teste</button></div>'+
-   '<p class="note">A imagem é gerada no seu navegador e só sai daqui pelo app que você escolher.</p><div id="sh-box" hidden></div></div>';
+  h+='<div class="row"><button class="btn" id="sh">Compartilhar</button></div>';
   h+='<h3>Por tema</h3><div class="legend"><span><i class="ca"></i>Lula</span><span><i class="cb"></i>Flávio</span></div><div class="themes">';
   Object.keys(TH).forEach(function(k){var b=c.by[k];if(!b)return;
     var a=pc(b.L,b.tot),f=pc(b.F,b.tot);

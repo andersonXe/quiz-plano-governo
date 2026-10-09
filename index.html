@@ -109,6 +109,12 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 .about p{color:var(--ink)}
 .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
 .foot a{color:var(--accent);font-weight:600}
+.res-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sh-wrap{display:flex;align-items:center;gap:6px}
+.sh{all:unset;cursor:pointer;color:var(--muted);display:inline-flex;padding:6px;border-radius:4px;opacity:.75}
+.sh:hover{opacity:1;color:var(--accent)}
+.sh:focus-visible{outline:3px solid var(--accent);outline-offset:1px;opacity:1}
+.sh-msg{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
 dialog#terms{border:1.5px solid var(--line);border-radius:6px;padding:0;background:var(--surface);color:var(--ink);width:min(680px,calc(100vw - 32px));max-height:calc(100dvh - 48px)}
 dialog#terms::backdrop{background:rgba(0,0,0,.45)}
 .terms-body{padding:22px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
@@ -405,14 +411,15 @@ var SITE='https://andersonxe.github.io/quiz-plano-governo/';
 function setupShare(r){
   var nums='Lula '+r.pl+'%, Flávio Bolsonaro '+r.pf+'%';
   var text=(r.split?'Fiz a Bússola dos Planos e meu perfil ficou dividido entre os dois planos de governo: '+nums+'.':'Fiz a Bússola dos Planos e minhas respostas ficaram mais perto do plano de '+NAME[r.lead]+': '+nums+'.')+' Não é recomendação de voto. Faça o teste também:';
-  var b=document.getElementById('sh');
+  var b=document.getElementById('sh'),m=document.getElementById('sh-msg');
+  function msg(t){m.textContent=t;setTimeout(function(){m.textContent=''},2500)}
   b.onclick=function(){
     if(navigator.share){navigator.share({title:'Bússola dos Planos',text:text,url:SITE}).catch(function(){});return}
-    if(navigator.clipboard)navigator.clipboard.writeText(text+' '+SITE).then(function(){b.textContent='Copiado! Cole onde quiser'},function(){b.textContent='Não foi possível copiar'});
+    if(navigator.clipboard)navigator.clipboard.writeText(text+' '+SITE).then(function(){msg('Copiado')},function(){msg('Não foi possível copiar')});
   }}
 function result(){
   var c=calc(),T=c.T,pl=pc(T.L,T.tot),pf=pc(T.F,T.tot);
-  var h='<div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div>';
+  var h='<div class="res-top"><div class="eyebrow">Resultado · '+(st.mode==='full'?'teste completo':'teste rápido')+'</div><span class="sh-wrap"><span class="sh-msg" id="sh-msg" aria-live="polite"></span><button type="button" class="sh" id="sh" aria-label="Compartilhar resultado" title="Compartilhar resultado"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7l7.4-4.1M8.3 13.3l7.4 4.1"/></svg></button></span></div>';
   if(!T.tot){
     h+='<h2>Sem respostas para comparar</h2><p class="lede">Você pulou todas as perguntas. Refaça o teste escolhendo ao menos uma opção.</p><div class="row"><button class="btn" id="again">Refazer</button></div>';
     app.innerHTML=h;document.getElementById('again').onclick=intro;return;
@@ -425,7 +432,6 @@ function result(){
    '<div class="score"><div class="top"><span class="nm">'+NAME.L+'</span><span class="pc">'+pl+'%</span></div><div class="track"><i class="ca" style="width:'+pl+'%"></i></div></div>'+
    '<div class="score"><div class="top"><span class="nm">'+NAME.F+'</span><span class="pc">'+pf+'%</span></div><div class="track"><i class="cb" style="width:'+pf+'%"></i></div></div>'+
    '<p class="note">Percentual das suas respostas (com peso, no teste completo) que coincidem com propostas de cada plano. Pontos em comum contam para os dois, por isso as porcentagens não somam 100.</p></div>';
-  h+='<div class="row"><button class="btn" id="sh">Compartilhar</button></div>';
   h+='<h3>Por tema</h3><div class="legend"><span><i class="ca"></i>Lula</span><span><i class="cb"></i>Flávio</span></div><div class="themes">';
   Object.keys(TH).forEach(function(k){var b=c.by[k];if(!b)return;
     var a=pc(b.L,b.tot),f=pc(b.F,b.tot);

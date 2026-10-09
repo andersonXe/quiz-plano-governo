@@ -99,6 +99,12 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 .about p{color:var(--ink)}
 .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
 .foot a{color:var(--accent);font-weight:600}
+dialog#terms{border:1.5px solid var(--line);border-radius:6px;padding:0;background:var(--surface);color:var(--ink);width:min(680px,calc(100vw - 32px));max-height:calc(100dvh - 48px)}
+dialog#terms::backdrop{background:rgba(0,0,0,.45)}
+.terms-body{padding:22px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.terms-body h3{margin-top:8px}
+.terms-body ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;text-align:justify;hyphens:auto}
+.terms-body a{color:var(--accent)}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
 @media (max-width:420px){.th{grid-template-columns:1fr}}
@@ -107,7 +113,42 @@ a.src{text-decoration:underline;text-underline-offset:2px}
 <body>
 
 <div class="wrap" id="app"></div>
-<footer class="wrap foot"><p>Projeto independente, sem ligação com partidos ou candidaturas. Dúvidas, sugestões ou encontrou algum erro? <a href="https://andersonxe.github.io/" target="_blank" rel="noopener">Fale comigo</a>.</p></footer>
+<footer class="wrap foot"><p>Projeto independente, sem ligação com partidos ou candidaturas. Dúvidas, sugestões ou encontrou algum erro? <a href="https://andersonxe.github.io/" target="_blank" rel="noopener">Fale comigo</a>. · <a href="#termos" id="open-terms">Termos de uso e privacidade</a></p></footer>
+<dialog id="terms" aria-labelledby="terms-h">
+<div class="terms-body">
+<h2 id="terms-h">Termos de uso e privacidade</h2>
+<p class="note">Última atualização: 9 de outubro de 2026</p>
+
+<h3>1. O que é este site</h3>
+<p>A Bússola dos Planos é uma ferramenta informativa e gratuita, feita de forma independente, sem ligação com partidos, candidaturas, coligações ou com a Justiça Eleitoral. Ela compara as suas respostas com trechos dos planos de governo de Lula (PT) e de Flávio Bolsonaro (PL) registrados no TSE para o 2º turno de 2026.</p>
+
+<h3>2. Não é recomendação de voto nem pesquisa</h3>
+<p>O resultado mostra apenas quanto as suas respostas se aproximam do que está escrito em cada plano. Ele não leva em conta histórico de governo, composição do Congresso, viabilidade das propostas nem declarações feitas fora do plano. Também não é pesquisa eleitoral nem enquete: as respostas não são coletadas, somadas nem divulgadas.</p>
+
+<h3>3. Fontes e precisão</h3>
+<p>Cada opção é um resumo de uma proposta, com a seção e a página do plano de onde foi tirada. Fizemos o possível para que os resumos sejam fiéis e equilibrados, mas podem existir erros. Em caso de diferença, vale o texto oficial do TSE, que pode ser aberto pelos links de cada fonte. Se encontrar um erro, avise pelo link "Fale comigo"; correções podem ser feitas a qualquer momento.</p>
+
+<h3>4. Privacidade</h3>
+<p>Não pedimos cadastro e não coletamos, guardamos nem enviamos as suas respostas. Todo o cálculo é feito no seu navegador, e as respostas desaparecem quando você fecha ou recarrega a página. O site não usa ferramentas de análise de audiência, anúncios nem rastreadores.</p>
+<p>Dois serviços de terceiros participam do funcionamento da página e recebem dados técnicos de acesso, como o seu endereço IP:</p>
+<ul>
+<li><b>GitHub Pages</b>, que hospeda o site e registra acessos para operação e segurança. <a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Declaração de privacidade do GitHub</a>.</li>
+<li><b>Google Fonts</b>, de onde o seu navegador baixa as fontes do texto. <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener">Privacidade do Google Fonts</a>.</li>
+</ul>
+<p>Os links para os PDFs do TSE e para o portfólio levam a outros sites, que têm políticas próprias.</p>
+
+<h3>5. Cookies</h3>
+<p>Este site não usa cookies nem armazenamento local do navegador. Por isso não há aviso de cookies para aceitar.</p>
+
+<h3>6. Responsabilidade</h3>
+<p>O site é oferecido como está, sem garantia de que esteja livre de erros ou sempre disponível. A decisão de voto é sua; use o resultado como ponto de partida para conhecer as propostas, e não como resposta final.</p>
+
+<h3>7. Mudanças e contato</h3>
+<p>Estes termos podem ser atualizados, e a data no topo indica a versão em vigor. Dúvidas ou pedidos: <a href="https://andersonxe.github.io/" target="_blank" rel="noopener">Fale comigo</a>.</p>
+
+<form method="dialog" class="row" style="margin-top:8px"><button class="btn" value="close">Fechar</button></form>
+</div>
+</dialog>
 
 <script>
 (function(){
@@ -394,6 +435,13 @@ function result(){
   var fb=document.getElementById('full');if(fb)fb.onclick=function(){start('full')};
 }
 intro();
+/* termos: janela sobreposta, para não perder o teste em andamento; #termos abre direto */
+var dlg=document.getElementById('terms');
+function openTerms(){if(!dlg.open)dlg.showModal();dlg.querySelector('.terms-body').scrollTop=0}
+document.getElementById('open-terms').onclick=function(e){e.preventDefault();openTerms()};
+dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close()});
+if(location.hash==='#termos')openTerms();
+window.addEventListener('hashchange',function(){if(location.hash==='#termos')openTerms()});
 })();
 </script>
 </body>

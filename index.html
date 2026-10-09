@@ -174,10 +174,10 @@ var NAME={L:'Lula (PT)',F:'Flávio Bolsonaro (PL)'};
 var PDF={L:'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pt/@@display-file/file/proposta-pt.pdf',F:'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf'};
 /* w: L = proposta no plano de Lula; F = proposta no plano de Flávio; s = seção e página no PDF do TSE (página do PDF = página impressa). Conferido contra o texto extraído dos PDFs em 09/10/2026; ver AUDITORIA.md */
 var Q=[
-{id:'seg1',th:'seg',quick:1,q:'Como o governo federal deve enfrentar PCC, CV e milícias?',o:[
+{id:'seg1',th:'seg',q:'Como o governo federal deve enfrentar PCC, CV e milícias?',o:[
  {w:'F',t:'Declarar as facções "organizações narcoterroristas", combatê-las com força (o plano prevê abater quem estiver armado de fuzil) e bloquear seus ativos.',s:'Brasil sem Medo, p.13'},
  {w:'L',t:'Asfixiar financeiramente o crime organizado, aplicar a Lei Antifacção e integrar a inteligência com estados e municípios, nos marcos do Estado de Direito.',s:'Diretriz 3, p.27–28'}]},
-{id:'seg2',th:'seg',quick:1,q:'O que fazer com a idade de responsabilização penal de jovens?',o:[
+{id:'seg2',th:'seg',q:'O que fazer com a idade de responsabilização penal de jovens?',o:[
  {w:'F',t:'Reduzir a maioridade penal de 18 para 16 anos e punir maiores de 14 em crimes graves (estupro, tráfico, tortura, assassinato).',s:'Brasil sem Medo, p.13'},
  {w:'L',t:'Não mexer na idade penal e investir em prevenção da violência juvenil, mediação comunitária e justiça restaurativa.',s:'Diretriz 3, p.29 (o plano não propõe mudar a maioridade)'}]},
 {id:'seg3',th:'seg',q:'Qual caminho para o sistema prisional?',o:[
@@ -198,22 +198,28 @@ var Q=[
 {id:'seg8',th:'seg',q:'Como combater o roubo de celulares?',o:[
  {w:'F',t:'Prender quem rouba celular e quadruplicar a pena inicial de quem furta ou revende aparelho roubado, sem benefícios.',s:'Brasil sem Medo, p.16'},
  {w:'L',t:'Ampliar o Celular Seguro e a base nacional de aparelhos com restrição e atacar as redes de receptação.',s:'Diretriz 3, p.29'}]},
-{id:'eco1',th:'eco',quick:1,q:'Qual regra para as contas públicas?',o:[
+{id:'eco1',th:'eco',q:'Qual regra para as contas públicas?',o:[
  {w:'L',t:'Manter o arcabouço fiscal atual, controlando o aumento do gasto, para reduzir os juros de forma sustentada.',s:'Diretriz 8, p.49'},
  {w:'F',t:'Trocar as regras fiscais por outras focadas em reduzir a dívida, com superávits e limite de gastos para os três Poderes.',s:'Brasil que Não Volta Atrás, p.71'}]},
-{id:'eco2',th:'eco',quick:1,q:'O que fazer com a reforma tributária do consumo?',o:[
+{id:'eco2',th:'eco',q:'O que fazer com a reforma tributária do consumo?',o:[
  {w:'L',t:'Manter e regulamentar a reforma aprovada (CBS e IBS, cesta básica isenta, cashback para os mais pobres, Imposto Seletivo sobre produtos nocivos).',s:'Compromisso com o Projeto de Nação, p.11; Diretriz 9, p.59'},
  {w:'F',t:'Rever e redimensionar a reforma: reduzir o IVA projetado, cortar exceções e diminuir a carga sobre produção e consumo.',s:'Brasil Mais Barato, p.30; Brasil que Não Volta Atrás, p.71–72'}]},
 {id:'eco3',th:'eco',q:'Qual deve ser o foco da política de impostos?',o:[
  {w:'L',t:'Justiça tributária: manter a isenção de IR até R$ 5 mil e a tributação dos super-ricos já aprovadas e seguir cortando privilégios e distorções.',s:'Compromisso com o Projeto de Nação, p.11; Diretriz 2, p.19; Diretriz 8, p.49'},
  {w:'F',t:'Cortar impostos sobre consumo, produção, energia elétrica e combustíveis e reduzir exceções, para que grupos parecidos paguem impostos parecidos.',s:'Brasil Mais Barato, p.30–31'}]},
-{id:'eco4',th:'eco',quick:1,q:'Qual o papel do Estado na economia?',o:[
+{id:'eco4',th:'eco',q:'Qual o papel do Estado na economia?',o:[
  {w:'L',t:'Política industrial ativa (Nova Indústria Brasil), com financiamento direcionado, compras públicas e conteúdo local.',s:'Diretriz 8, p.50–51'},
  {w:'F',t:'O Estado não deve ser empresário: desestatizações avaliadas caso a caso, concessões e PPPs, e BNDES só para obras no Brasil.',s:'Brasil que Cresce, p.49–51; Brasil que Não Volta Atrás, p.70'}]},
 {id:'eco5',th:'eco',q:'Como ajudar famílias endividadas?',o:[
  {w:'L',t:'Manter os fundos garantidores, controlar gastos com apostas on-line e endurecer as regras de concessão de crédito para proteger o consumidor.',s:'Diretriz 8, p.49'},
  {w:'F',t:'Baixar os juros reduzindo a dívida pública, dar orientação financeira pela CAIXA e criar o Ganha-Ganha (quem paga em dia ganha juros menores).',s:'Brasil Mais Barato, p.32–33; Brasil que Prospera, p.46'}]},
-{id:'tr1',th:'trab',quick:1,q:'Como definir a jornada de trabalho?',o:[
+{id:'eco6',th:'eco',q:'Como lidar com o preço dos combustíveis?',o:[
+ {w:'L',t:'Usar a Petrobras para amortecer a variação dos preços internacionais, para que o consumidor não sofra com choques externos.',s:'Diretriz 10, p.66'},
+ {w:'F',t:'Reduzir os impostos sobre combustíveis e energia e baratear o transporte de combustível com modais mais baratos que o caminhão.',s:'Brasil Mais Barato, p.31; Brasil que Cresce, p.53'}]},
+{id:'eco7',th:'eco',q:'Como aproveitar os minerais críticos, como lítio e terras-raras?',o:[
+ {w:'F',t:'Estado só como regulador, com licenciamento ágil e atração de capital e tecnologia estrangeiros para processar os minerais aqui.',s:'Brasil que Cresce, p.55–56'},
+ {w:'L',t:'Criar uma política nacional para minerais críticos e terras-raras, para o país entrar nessas cadeias de forma soberana e não exportar só matéria-prima.',s:'Diretriz 8, p.52'}]},
+{id:'tr1',th:'trab',q:'Como definir a jornada de trabalho?',o:[
  {w:'L',t:'Acabar com a escala 6x1 e reduzir a jornada para 40 horas semanais, sem redução de salário.',s:'Diretriz 12, p.75'},
  {w:'F',t:'Fazer valer o negociado sobre o legislado: trabalhador e empresa combinam jornada e condições, dentro da lei.',s:'Brasil que Prospera, p.44–45'}]},
 {id:'tr2',th:'trab',q:'Como tratar o trabalho por aplicativos?',o:[
@@ -225,10 +231,13 @@ var Q=[
 {id:'tr4',th:'trab',q:'Qual o papel dos sindicatos?',o:[
  {w:'L',t:'Fortalecer a negociação coletiva, atualizar o sistema sindical e voltar a ter assistência sindical na homologação da demissão.',s:'Diretriz 12, p.75–76'},
  {w:'F',t:'Conter a "República Sindical": sindicalistas fora da formulação de políticas públicas e defesa da reforma trabalhista de 2017.',s:'Brasil que Prospera, p.44–45'}]},
+{id:'tr5',th:'trab',q:'Como apoiar quem quer abrir o próprio negócio?',o:[
+ {w:'F',t:'Criar o Minha Primeira Empresa: menos burocracia para abrir, capacitação pelo Sistema S e crédito da CAIXA do primeiro balcão ao faturamento.',s:'Brasil que Prospera, p.45'},
+ {w:'L',t:'Ampliar o acesso das pequenas empresas às compras do governo, seguir com os fundos garantidores de crédito e expandir o Brasil Mais Produtivo.',s:'Diretriz 8, p.57–58'}]},
 {id:'pr1',th:'prev',q:'O que priorizar na Previdência e no INSS?',o:[
  {w:'F',t:'Reeditar o pacote antifraude de 2019, mudar as regras do consignado com dupla checagem e entregar a gestão do INSS a profissionais.',s:'Brasil sem Fila, p.26; Brasil que Não Volta Atrás, p.72–73'},
  {w:'L',t:'Diversificar as fontes de financiamento da Previdência e criar contribuição mais flexível para quem tem trabalho intermitente, inclusive em aplicativos.',s:'Diretriz 12, p.77'}]},
-{id:'es1',th:'est',quick:1,q:'Como deve ser a máquina pública?',o:[
+{id:'es1',th:'est',q:'Como deve ser a máquina pública?',o:[
  {w:'F',t:'Enxugar: cortar ao menos 10 ministérios, reduzir cargos comissionados, combater supersalários e fazer a reforma administrativa.',s:'Brasil que Não Volta Atrás, p.69'},
  {w:'L',t:'Modernizar o Estado, valorizar servidores pela Mesa Nacional de Negociação e compartilhar serviços de apoio entre ministérios.',s:'Diretriz 1, p.16–17'}]},
 {id:'es2',th:'est',q:'O que fazer com o Judiciário?',o:[
@@ -246,13 +255,13 @@ var Q=[
 {id:'es6',th:'est',q:'Como prevenir a corrupção?',o:[
  {w:'F',t:'Fortalecer a Lei das Estatais, escolher dirigentes por recrutamento de mercado e blindar fundos de pensão da indicação política.',s:'Brasil que Não Volta Atrás, p.69–70'},
  {w:'L',t:'Aprofundar o Plano de Integridade e Combate à Corrupção e transformar o Portal da Transparência em plataforma com dados abertos e IA.',s:'Diretriz 1, p.18'}]},
-{id:'sa1',th:'sau',quick:1,q:'Como reduzir as filas do SUS?',o:[
+{id:'sa1',th:'sau',q:'Como reduzir as filas do SUS?',o:[
  {w:'L',t:'Expandir o Agora Tem Especialistas (terceiro turno, mutirões, carretas da saúde), manter o Mais Médicos e a Farmácia Popular gratuita.',s:'Diretriz 5, p.35–37'},
  {w:'F',t:'Contratar exames na rede privada em horários ociosos, corrigir a tabela SUS e usar telessaúde e IA no agendamento.',s:'Brasil sem Fila, p.26; Brasil que Prepara, p.37–38'}]},
 {id:'sa2',th:'sau',q:'Como facilitar o acesso a remédios e exames de quem tem doença crônica?',o:[
  {w:'L',t:'Manter a Farmácia Popular 100% gratuita e incluir nela exames de doenças crônicas, como hipertensão e diabetes.',s:'Diretriz 5, p.36'},
  {w:'F',t:'Criar um sistema de entrega de remédio em casa para idosos, pessoas com deficiência e doentes crônicos.',s:'Brasil que Prepara, p.38'}]},
-{id:'ed1',th:'edu',quick:1,q:'Qual o melhor caminho para melhorar o aprendizado?',o:[
+{id:'ed1',th:'edu',q:'Qual o melhor caminho para melhorar o aprendizado?',o:[
  {w:'F',t:'Alfabetizar pelo método fônico, criar reforço dado por alunos remunerados (Programa Acolher) e vincular repasses a metas de aprendizagem.',s:'Brasil que Prepara, p.35'},
  {w:'L',t:'Seguir o Compromisso Criança Alfabetizada com estados e municípios (meta de 80%) e criar estratégia nacional de recomposição das aprendizagens.',s:'Diretriz 4, p.31'}]},
 {id:'ed2',th:'edu',q:'Onde faltam vagas em creches e escolas, o que fazer?',o:[
@@ -267,7 +276,7 @@ var Q=[
 {id:'ed5',th:'edu',q:'Como ampliar o ensino técnico?',o:[
  {w:'F',t:'Ensino técnico no ensino médio em parceria com empresas, que poderão custear bolsas de formação.',s:'Brasil que Prepara, p.36'},
  {w:'L',t:'Continuar abrindo institutos federais, priorizando interior, periferias e cidades com poucos cursos técnicos.',s:'Diretriz 4, p.33'}]},
-{id:'am1',th:'amb',quick:1,q:'Como reduzir o desmatamento?',o:[
+{id:'am1',th:'amb',q:'Como reduzir o desmatamento?',o:[
  {w:'L',t:'Desmatamento líquido zero até 2030, com Fundo Amazônia, Fundo Florestas Tropicais, manejo do fogo e terras públicas destinadas à conservação.',s:'Diretriz 8 (p.56) e Diretriz 11 (p.70–71)'},
  {w:'F',t:'Zerar o desmatamento ilegal até 2029 com satélite e IA, sem novas obrigações ao produtor legal, e pagar por serviços ambientais.',s:'Brasil que Cresce, p.57–58'}]},
 {id:'am2',th:'amb',q:'Qual direção para petróleo, gás e energia?',o:[
@@ -288,25 +297,40 @@ var Q=[
 {id:'so2',th:'soc',q:'Qual programa de moradia?',o:[
  {w:'L',t:'Ampliar o Minha Casa Minha Vida para todas as faixas, com o Periferia Viva para urbanizar favelas.',s:'Diretriz 7, p.45–46'},
  {w:'F',t:'Retomar o Casa Verde e Amarela (meta de 2,5 milhões de casas), com escritura de preferência no nome da mulher.',s:'Brasil que Prospera, p.47'}]},
+{id:'so3',th:'soc',q:'Como apoiar os idosos e quem cuida deles?',o:[
+ {w:'F',t:'Subsidiar a adaptação da casa de idosos de baixa renda, criar um app de companhia com alertas e ampliar centros-dia por parcerias com o setor privado.',s:'Brasil por Elas, p.21; Brasil que Prepara, p.39'},
+ {w:'L',t:'Levar o atendimento domiciliar do SUS (PADI) a todo o país, ampliar os centros-dia nos municípios e fiscalizar as casas de longa permanência.',s:'Diretriz 2, p.22'}]},
 {id:'mu1',th:'mul',q:'Como proteger as mulheres da violência?',o:[
  {w:'F',t:'Centrais da Mulher (física e por aplicativo com IA), tornozeleira para agressores de maior risco e pena cumprida integralmente por quem agride mulher.',s:'Brasil sem Medo, p.14; Brasil por Elas, p.17–19'},
  {w:'L',t:'Seguir o Pacto contra o Feminicídio: concluir 30 Casas da Mulher Brasileira, ampliar as Salas Lilás e dar kits de monitoramento de agressores aos estados.',s:'Diretriz 2, p.21'}]},
 {id:'mu2',th:'mul',q:'Como ampliar a renda das mulheres?',o:[
  {w:'F',t:'Cursos gratuitos da Escola Brasil por Elas (IA, programação, finanças), bônus de internet e juros menores para quem paga em dia.',s:'Brasil por Elas, p.18–20'},
  {w:'L',t:'Obrigar empresas com desigualdade salarial a cumprir planos com metas para igualar os salários de mulheres e homens.',s:'Diretriz 12, p.75'}]},
-{id:'di1',th:'dir',quick:1,q:'Quais valores devem guiar o governo?',o:[
+{id:'di1',th:'dir',q:'Quais valores devem guiar o governo?',o:[
  {w:'F',t:'Liberdade, família, vida desde a concepção, propriedade privada e liberdade religiosa.',s:'Apresentação, p.9'},
  {w:'L',t:'Redução das desigualdades, combate ao racismo, ao machismo e às discriminações, e garantia de direitos sexuais e reprodutivos.',s:'Diretriz 2, p.19 e 21'}]},
 {id:'di2',th:'dir',q:'Como tratar terras de povos indígenas e quilombolas?',o:[
  {w:'L',t:'Seguir demarcando terras indígenas e titulando territórios quilombolas, retirando invasores (desintrusão) quando necessário.',s:'Diretriz 2, p.20'},
  {w:'F',t:'Dar autonomia a indígenas e quilombolas para decidir atividades produtivas em suas terras, com compensação por restrições.',s:'Brasil que Cresce, p.50'}]},
+{id:'di3',th:'dir',q:'O que priorizar para pessoas com deficiência?',o:[
+ {w:'F',t:'Políticas de inclusão em todas as áreas do governo, com Centros de Referência em Autismo e incentivo ao paradesporto.',s:'Brasil que Prepara, p.39–40'},
+ {w:'L',t:'Manter o Viver sem Limite, aplicar com rigor a lei de acessibilidade e fiscalizar as cotas de contratação de pessoas com deficiência.',s:'Diretriz 2, p.23'}]},
 {id:'rg1',th:'reg',q:'Como reduzir a desigualdade entre as regiões?',o:[
  {w:'F',t:'Priorizar obras de água e irrigação no Nordeste, o Trem do Nordeste e a conclusão da Transnordestina.',s:'Brasil que Cresce, p.52 e 60'},
  {w:'L',t:'Usar os fundos constitucionais e o novo Fundo de Desenvolvimento Regional e atrair indústrias movidas a energia renovável ao Nordeste.',s:'Diretriz 8, p.55–56'}]},
 {id:'rg2',th:'reg',q:'Quem deve puxar o investimento em infraestrutura?',o:[
  {w:'F',t:'A iniciativa privada: R$ 900 bilhões em 4 anos via concessões e PPPs, com fundo lastreado em imóveis da União.',s:'Brasil que Cresce, p.50–51'},
  {w:'L',t:'Uma nova edição do Novo PAC, articulando investimento público e privado, com obras públicas e concessões.',s:'Diretriz 8, p.52–53'}]},
-{id:'ex1',th:'ext',quick:1,q:'Qual deve ser a linha da política externa?',o:[
+{id:'rg3',th:'reg',q:'Como levar água e esgoto a todos?',o:[
+ {w:'F',t:'Aplicar plenamente o Marco Legal do Saneamento e acelerar as concessões e parcerias com o setor privado.',s:'Brasil que Prospera, p.47'},
+ {w:'L',t:'Apoiar estados e municípios a universalizar água e esgoto, dando prioridade às periferias historicamente esquecidas.',s:'Diretriz 7, p.46'}]},
+{id:'rg4',th:'reg',q:'Como melhorar o transporte nas cidades?',o:[
+ {w:'F',t:'Planejar as cidades para encurtar deslocamentos, com contratos que juntem moradia e transporte e crédito de bancos públicos para metrô e ônibus elétricos.',s:'Brasil que Cresce, p.51'},
+ {w:'L',t:'Investir em transporte coletivo de alta capacidade e na eletrificação das frotas, comprando equipamentos da indústria nacional.',s:'Diretriz 7, p.46'}]},
+{id:'rg5',th:'reg',q:'Como fazer o turismo crescer?',o:[
+ {w:'F',t:'Tratar a segurança como base do turismo, promover o destino Brasil e usar novas ferrovias, como o Trem do Nordeste, para levar visitantes.',s:'Brasil que Cresce, p.59–60'},
+ {w:'L',t:'Criar roteiros temáticos de gastronomia, cultura e ecoturismo, unir turismo e setores criativos e promover o Brasil no exterior.',s:'Diretriz 8, p.57'}]},
+{id:'ex1',th:'ext',q:'Qual deve ser a linha da política externa?',o:[
  {w:'L',t:'Multilateralismo (reforma da ONU e da OMC), BRICS, Sul Global e integração sul-americana (Mercosul, OTCA).',s:'Diretriz 13, p.80–81'},
  {w:'F',t:'Abertura comercial, adesão à OCDE e integração a cadeias globais de valor, com diplomacia guiada pelo pragmatismo.',s:'Brasil que Cresce, p.61–63'}]},
 {id:'ex2',th:'ext',q:'Qual o foco da defesa nacional?',o:[
@@ -351,8 +375,8 @@ function intro(){
   '<h1>Quiz dos Planos</h1>'+
   '<p class="lede">Responda a perguntas cujas opções vêm dos planos de governo registrados no TSE e veja qual plano fica mais perto das suas ideias. Os nomes dos candidatos só aparecem no resultado.</p>'+
   '<div class="modes">'+
-   '<button class="mode" data-m="quick"><b>Rápido</b><span>12 perguntas · cerca de 5 minutos. Os temas de maior peso no debate.</span><span class="go">Começar</span></button>'+
-   '<button class="mode" data-m="full"><b>Completo</b><span>'+Q.length+' perguntas · cerca de 20 a 25 minutos. Você marca o que mais importa para você.</span><span class="go">Começar</span></button>'+
+   '<button class="mode" data-m="quick"><b>Rápido</b><span>12 perguntas sorteadas, cada uma de um tema diferente · cerca de 5 minutos. A cada teste, perguntas novas.</span><span class="go">Começar</span></button>'+
+   '<button class="mode" data-m="full"><b>Completo</b><span>'+Q.length+' perguntas · cerca de 25 minutos. Você marca o que mais importa para você.</span><span class="go">Começar</span></button>'+
   '</div>'+
   '<p class="note">Os dois planos comparados são os de Lula (PT) e de Flávio Bolsonaro (PL), disponíveis na página de planos de governo do TSE. Suas respostas não saem do seu navegador.</p>'+
   '<section class="about" aria-labelledby="about-h"><h2 id="about-h">Por que este site existe</h2>'+
@@ -362,8 +386,12 @@ function intro(){
   wireBar(INVITE,false);
   [].forEach.call(app.querySelectorAll('.mode'),function(b){b.onclick=function(){start(b.getAttribute('data-m'))}});
 }
+/* modo rápido: sorteia n temas e uma pergunta de cada, a cada teste */
+function mix(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function pickQuick(n){var by={};Q.forEach(function(q){(by[q.th]=by[q.th]||[]).push(q)});
+  return mix(Object.keys(by)).slice(0,n).map(function(k){return mix(by[k])[0]})}
 function start(m){
-  st.mode=m;st.list=Q.filter(function(q){return m==='full'||q.quick});st.i=0;st.ans={};st.imp={};st.seed=Math.floor(Math.random()*9000)+11;
+  st.mode=m;st.list=m==='full'?Q.slice():pickQuick(12);st.i=0;st.ans={};st.imp={};st.seed=Math.floor(Math.random()*9000)+11;
   ask();window.scrollTo(0,0);
 }
 function ask(){

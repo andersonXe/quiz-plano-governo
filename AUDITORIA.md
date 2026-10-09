@@ -71,3 +71,20 @@ seg1–seg6, eco1, es1, es4, sa1, ed1, ed2, ed3, so2, di1, di2, dg1 nos dois lad
 - **am3:** o plano de Lula não trata de prazo de licenciamento; a opção L traz a abordagem dele para o tema (fiscalização e Código Florestal), com observação.
 - **ex2:** o plano do PL fala pouco de defesa; a opção F junta a tropa nas fronteiras (p.13–14) com o parágrafo sobre Forças Armadas (p.63).
 - A categoria feminina no esporte (PL p.40–41) ficou de fora, porque o plano do PT não trata do tema e não haveria contraponto fiel.
+
+## Perguntas adicionadas em 09/10/2026 (segunda leva, 8), com página conferida no texto
+
+| id | tema | L | F |
+|---|---|---|---|
+| eco6 | preço dos combustíveis | Diretriz 10, p.66 | Brasil Mais Barato p.31; Brasil que Cresce p.53 |
+| eco7 | minerais críticos | Diretriz 8, p.52 | Brasil que Cresce, p.55–56 |
+| tr5 | abrir o próprio negócio | Diretriz 8, p.57–58 | Brasil que Prospera, p.45 |
+| so3 | idosos e cuidado | Diretriz 2, p.22 | Brasil por Elas p.21; Brasil que Prepara p.39 |
+| di3 | pessoas com deficiência | Diretriz 2, p.23 | Brasil que Prepara, p.39–40 |
+| rg3 | saneamento | Diretriz 7, p.46 | Brasil que Prospera, p.47 |
+| rg4 | transporte nas cidades | Diretriz 7, p.46 | Brasil que Cresce, p.51 |
+| rg5 | turismo | Diretriz 8, p.57 | Brasil que Cresce, p.59–60 |
+
+Observações: em **eco7**, os dois planos falam em agregar valor no Brasil, e a diferença está no papel do Estado e do capital estrangeiro. Em **rg4** e **rg5** o contraste é menor que nas outras perguntas.
+
+O modo rápido deixou de ter 12 perguntas fixas: a cada teste, sorteia 12 dos 16 temas e uma pergunta de cada. Validação: 58 perguntas, uma opção L e uma F em cada, páginas dentro do PDF; em 10 mil sorteios, todos tiveram 12 temas distintos, e todas as 58 perguntas apareceram.
